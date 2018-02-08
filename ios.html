@@ -143,7 +143,7 @@
         <span id="unruptbuffer_len" class="badge pull-right"></span>
     </div>
     <div id="chosenAction">
-        <button id="action" type="button" class="btn btn-primary btn-lg"><i class="fa fa-sign-out fa-2x" aria-hidden="true"></i></button>
+        <button id="action" type="button" class="btn btn-primary btn-lg"><i class="fa fa-times-circle fa-2x" aria-hidden="true"></i></button>
         <button id="pause" type="button" class="btn btn-primary btn-lg"><i id="pauseIcon" class="fa fa-play-circle fa-2x" aria-hidden="true"></i></button>
         <button id="mute" type="button" class="btn btn-primary btn-lg"><i id="muteIcon" class="fa fa-microphone fa-2x" aria-hidden="true"></i></button>
         <button id="unruptToggle" type="button" class="btn btn-primary btn-lg"><i id="pwsIcon" class="fa fa-exchange fa-2x" aria-hidden="true"></i></button>
@@ -751,7 +751,9 @@ function accepted() {
 
     function setRole() {
         cid = $.getUrlVar("unruptId");
-        mid = localStorage['unruptId'];
+        mid = sessionStorage['unruptId'];
+        console.log('URL unrupt ID:', cid);
+        console.log('sessionStorage unrupt ID:', mid);
         //var act = $("#action");
         if (!mid) {
             var array = new Uint32Array(8);
@@ -768,8 +770,8 @@ function accepted() {
                 hexCodes.push(paddedValue);
             }
             mid = hexCodes.join("").toLowerCase();
-            console.log("mid =", mid);
-            localStorage['unruptId'] = mid;
+            sessionStorage['unruptId'] = mid;
+            console.log('Didnt have our own unrupt ID so generated one:', mid);
         }
         if (cid == null){
             document.location = location.pathname + "?" + "unruptId=" + mid + "&video=1";
@@ -790,6 +792,7 @@ function accepted() {
                     qrcode.makeCode(url);
                 }
                 initiator = (mid === cid);
+                console.log(initiator ? 'We are the initiator' : 'We are not the initiator');
                 var smodal = initiator ? "#share":"#accept";
                 $(smodal).modal('show');
             };
