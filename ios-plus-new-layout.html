@@ -124,7 +124,7 @@
             <button id="chooseActionVideo" type="button" class="btn btn-primary btn-lg">Audio &amp; Video</button>
         </div>
         <div id="chosenAction">
-            <button id="action" type="button" class="btn btn-primary btn-lg"></button>
+            <button id="action" type="button" class="btn btn-primary btn-lg unrupt-action-btn" data-clipboard-target="#unrupturl"></button>
             <button id="pause" type="button" class="btn btn-primary btn-lg">pause</button>
             <button id="mute" type="button" class="btn btn-primary btn-lg">mute</button>
             <button id="unruptToggle" type="button" class="btn btn-primary btn-lg">Pause-while-speaking on</button>
@@ -807,5 +807,23 @@
         }, 250);
     });
 </script>
+<input id="unrupturl" style="display:none;" />
+    <!-- Include clipboardjs -->
+    <script src="clipboard.min.js"></script>
+
+    <!-- 3. Instantiate clipboard -->
+    <script>
+    var unrupturltag = $("#unrupturl");
+    unrupturltag.val(window.location.href)
+    var clipboard = new Clipboard('.unrupt-action-btn');
+
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+    </script>
 </body>
 </html>
