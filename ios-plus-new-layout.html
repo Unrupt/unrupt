@@ -815,6 +815,7 @@
 
     <!-- Instantiate clipboard -->
     <script>
+    $(document).ready(function(){
     var unrupturltag = $("#unrupturl");
     unrupturltag.val(window.location.href)
     var clipboard = new Clipboard('.unrupt-action-btn');
@@ -825,6 +826,7 @@
 
     clipboard.on('error', function(e) {
         //console.log(e);
+    });
     });
     </script>
 </body>
