@@ -8,7 +8,6 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-
     <style>
         #chooseAction, #chosenAction, #audioInfo, #videoRow{
             display:none;
@@ -40,12 +39,17 @@
             background-position: center;
             z-index: 99999;
         }
+        #message_holder{display:none;}
+        #message_holder.flash-message{display:block};
     </style>
 
 </head>
 <body>
 <h1 id="title" class="text-center">Unrupt Calls</h1>
 <h3 id="useragent"></h3>
+<div class="alert alert-info" id="message_holder">
+  
+</div>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
@@ -821,12 +825,20 @@
     unrupturltag.val(window.location.href)
     var clipboard = new Clipboard('.unrupt-action-btn');
 
+
     clipboard.on('success', function(e) {
-        console.log(e);
+        //
+        var message_holder = $("#message_holder");
+        var message = "copied to clipboard";
+         message_holder.html('<strong>' + message + '</strong>');
+         message_holder.addClass("flash-message");
+         setTimeout(function(){ message_holder.removeClass("flash-message"); }, 3000);
+        
+
     });
 
     clipboard.on('error', function(e) {
-        console.log(e);
+        // console.log(e);
     });
     });
     </script>
