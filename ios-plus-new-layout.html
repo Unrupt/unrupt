@@ -17,11 +17,11 @@
         #in {
             transform: rotateY(180deg);
         }
-
+        
         video {
             width: 100%;
         }
-
+        .buffer-label{font-size:14px;}
         #otherUser, #thisUser {
             position: relative;
             width: 100%;
@@ -83,20 +83,20 @@
                     </div>
                     <div class="row">
                         <div class="col-4 card">
-                            <div class="card-header">Far <span id="farscope-badge" class="badge badge-secondary">Silent</span></div>
+                            <div class="card-header buffer-label">Far <span id="farscope-badge" class="badge badge-secondary">Silent</span></div>
                             <div class="card-body">
                                 <canvas id="farscope" style="height:40px;width:60px;">Scope</canvas>
                             </div>
                         </div>
                         <div class="col-4 card">
-                            <div class="card-header">Play <span id="earscope-badge" class="badge badge-secondary">Silent</span>
+                            <div class="card-header buffer-label">Play <span id="earscope-badge" class="badge badge-secondary">Silent</span>
                             </div>
                             <div class="card-body">
                                 <canvas id="earscope" style="height:40px;width:60px;">Scope</canvas>
                             </div>
                         </div>
                         <div class="col-4 card">
-                            <div class="card-header">Near <span id="nearscope-badge" class="badge badge-secondary">Silent</span></div>
+                            <div class="card-header buffer-label">Near <span id="nearscope-badge" class="badge badge-secondary">Silent</span></div>
                             <div class="card-body">
                                 <canvas id="nearscope" style="height:40px;width:60px;">Scope</canvas>
                             </div>
@@ -129,7 +129,7 @@
             <button id="chooseActionVideo" type="button" class="btn btn-primary btn-lg">Audio &amp; Video</button>
         </div>
         <div id="chosenAction">
-            <button class="unrupt-action-btn" data-clipboard-target="#unrupturl">copy url</button>
+            <button class="unrupt-action-btn btn btn-primary btn-lg" data-clipboard-target="#unrupturl">copy url</button>
             <button id="action" type="button" class="btn btn-primary btn-lg></button>
             <button id="pause" type="button" class="btn btn-primary btn-lg">pause</button>
             <button id="mute" type="button" class="btn btn-primary btn-lg">mute</button>
