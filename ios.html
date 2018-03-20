@@ -11,20 +11,34 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
+
         @media (min-height: 199.99px) and (min-width: 149.99px) {
             .video {
                 width: 240px;
                 height: 320px;
                 background: greenyellow;
+                margin: 0 auto;
+            }
+
+            h1 {
+                font-size: 1.3em;
             }
         }
 
 
-        @media (min-height: 499.99px) and (min-width: 299.99px) {
+        @media (min-height: 699.99px) and (min-width: 299.99px) {
             .video {
                 width: 240px;
-                height: 320px;
+                height: 604px;
                 background: gold;
+            }
+        }
+
+        @media (min-height: 650.99px) and (min-width: 350.99px) {
+            .video {
+                width: 309px;
+                height: 550px;
+                background: red;
             }
         }
 
@@ -66,7 +80,7 @@
         #in {
             position: absolute;
             left:0px;
-            top:0px;
+            bottom:0px;
             width: 96px;
             height: 128px;
         }
@@ -80,6 +94,11 @@
         #otherUser {
             position: relative;
 
+        }
+
+        #chosenAction {
+            clear: both;
+            text-align: center;
         }
 
 
@@ -106,7 +125,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
 <script src="https://pi.pe/iot/js/qrcode.js"></script>
 
-<a href="ios.html"><h1 id="title" class="text-center">Verbol Speak</h1></a>
+<h1 id="title" class="text-center"><a target="_blank" href="https://docs.google.com/document/d/1UAAJUiSZ99gehOnBDvY33yO4yRx-voZ71OsuZrqpiDY/edit">Family Systems</a> <a href="ios.html">Unrupt Demo 1.0</a></h1>
     <div class="video" id="otherUser" onclick="doPlay();">
         <div id="pauseOther" class="playpause">
             <object data="pause.svg"></object>
@@ -123,21 +142,21 @@
         <span id="mode" class="badge badge-primary pull-left">Direct</span>
         <span id="unruptbuffer_len" class="badge pull-right"></span>
     </div>
-        <div id="chosenAction" class="row">
-            <button id="action" type="button" class="btn btn-primary btn-lg"><i class="fa fa-sign-out fa-2x" aria-hidden="true"></i></button>
-            <button id="pause" type="button" class="btn btn-primary btn-lg"><i id="pauseIcon" class="fa fa-play-circle fa-2x" aria-hidden="true"></i></button>
-            <button id="mute" type="button" class="btn btn-primary btn-lg"><i id="muteIcon" class="fa fa-microphone fa-2x" aria-hidden="true"></i></button>
-            <button id="unruptToggle" type="button" class="btn btn-primary btn-lg"><i id="pwsIcon" class="fa fa-exchange fa-2x" aria-hidden="true"></i></button>
-        </div>
+    <div id="chosenAction">
+        <button id="action" type="button" class="btn btn-primary btn-lg"><i class="fa fa-times-circle fa-2x" aria-hidden="true"></i></button>
+        <button id="pause" type="button" class="btn btn-primary btn-lg"><i id="pauseIcon" class="fa fa-play-circle fa-2x" aria-hidden="true"></i></button>
+        <button id="mute" type="button" class="btn btn-primary btn-lg"><i id="muteIcon" class="fa fa-microphone fa-2x" aria-hidden="true"></i></button>
+        <button id="unruptToggle" type="button" class="btn btn-primary btn-lg"><i id="pwsIcon" class="fa fa-exchange fa-2x" aria-hidden="true"></i></button>
+    </div>
 </div>
 <div id="share" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Share this url</h5>
+                <h5 class="modal-title">Share this url to request a call</h5>
             </div>
             <div class="modal-body" id="shareQR">
-                <p>Share this URL to request a call</p>
+
             </div>
             <div class="modal-footer">
                 <button id="shareDone" type="button" class="btn btn-secondary" data-dismiss="modal" onclick="shared();">Done</button>
@@ -576,7 +595,7 @@ function videoCapture() {
             var buffproc = yourProc(scope);
             var scope2 = doScopeNode(yourac, buffproc, "earscope");
             scope2.connect(yourac.destination);
-            $("#chosenAction").show();
+            //$("#chosenAction").show();
         }
     }
 
@@ -732,7 +751,9 @@ function accepted() {
 
     function setRole() {
         cid = $.getUrlVar("unruptId");
-        mid = localStorage['unruptId'];
+        mid = sessionStorage['unruptId'];
+        console.log('URL unrupt ID:', cid);
+        console.log('sessionStorage unrupt ID:', mid);
         //var act = $("#action");
         if (!mid) {
             var array = new Uint32Array(8);
@@ -749,8 +770,8 @@ function accepted() {
                 hexCodes.push(paddedValue);
             }
             mid = hexCodes.join("").toLowerCase();
-            console.log("mid =", mid);
-            localStorage['unruptId'] = mid;
+            sessionStorage['unruptId'] = mid;
+            console.log('Didnt have our own unrupt ID so generated one:', mid);
         }
         if (cid == null){
             document.location = location.pathname + "?" + "unruptId=" + mid + "&video=1";
@@ -771,6 +792,7 @@ function accepted() {
                     qrcode.makeCode(url);
                 }
                 initiator = (mid === cid);
+                console.log(initiator ? 'We are the initiator' : 'We are not the initiator');
                 var smodal = initiator ? "#share":"#accept";
                 $(smodal).modal('show');
             };
@@ -894,7 +916,7 @@ function accepted() {
             mediaElement.muted = true;
             document.body.appendChild(mediaElement);
         }
-        $("#chosenAction").hide();
+        //$("#chosenAction").hide();
         setRole();
 
         //$('#version').text(properties.versionname);

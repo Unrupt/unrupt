@@ -626,7 +626,7 @@
 
     function setRole() {
         var cid = $.getUrlVar("unruptId");
-        mid = localStorage['unruptId'];
+        mid = sessionStorage['unruptId'];
         var chooseAction = $("#chooseAction");
         var chosenAction = $("#chosenAction");
         var chooseActionAudio = $("#chooseActionAudio");
@@ -648,7 +648,7 @@
             }
             mid = hexCodes.join("").toLowerCase();
             console.log("mid =", mid);
-            localStorage['unruptId'] = mid;
+            sessionStorage['unruptId'] = mid;
         }
         if (cid == null){
             chooseAction.show();
