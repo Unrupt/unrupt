@@ -57,6 +57,18 @@ Based on reasonable assumptions about the above, we need
 9) code to sync state back to the proxy
 10) integration into existing unrupt
 
+#Alternative mechanism:
+Brian described a way to get to a working demo with less code. In essence
+he replaces the databases above with browser tabs. The proxy consists of multiple browser tabs,
+one for each contact. Likewise on the iphone, the each active contact would have a unique
+URL which is saved to the home screen.
+
+My intial response is that this will be amazingly hard to actually use and very fragile.
+Closing a page will effectively block that contact, until you notice.
+It also assumes that we can run webRTC in multiple tabs of the same browser.
+
+I'll work on a diagram.
+
 #Conclusion:
 This is quite a lot of work. A couple of months perhaps.
 
