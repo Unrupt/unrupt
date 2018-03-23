@@ -794,9 +794,9 @@
 
     function setRole() {
         cid = $.getUrlVar("unruptId");
-        mid = sessionStorage['unruptId'];
+        mid = localStorage['unruptId'];
         console.log('URL unrupt ID:', cid);
-        console.log('sessionStorage unrupt ID:', mid);
+        console.log('localStorage unrupt ID:', mid);
         //var act = $("#action");
         if (!mid) {
             var array = new Uint32Array(8);
@@ -813,7 +813,7 @@
                 hexCodes.push(paddedValue);
             }
             mid = hexCodes.join("").toLowerCase();
-            sessionStorage['unruptId'] = mid;
+            localStorage['unruptId'] = mid;
             console.log('Didnt have our own unrupt ID so generated one:', mid);
         }
         if (cid == null){
