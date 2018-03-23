@@ -242,6 +242,8 @@
     var AudioContext = window.AudioContext || window.webkitAudioContext;
     var framecount =0;
     var mode = "waiting";
+    var offerSendLoop
+    var session;
 
     // message stuff - used to create direct connection to peer over WEBRTC
 
@@ -257,50 +259,91 @@
                 toggleUnrupt();
                 break;
             case "offer":
-                if (fid == null) {
-                    fid = data.from;
-                }
-                pc.setRemoteDescription(data).then( _ =>
-                    pc.createAnswer(peerConnectionOfferAnswerCriteria).then(ans =>
-                        pc.setLocalDescription(ans).then( _ =>
-                            sendMessage(fid, mid, "answer", ans.sdp)
+                if (pc) {
+                    if (session == null) {
+                        session = data.session;
+                    } else {
+                        console.log("we got a duplicate offer ?!?")
+                    }
+                    if (fid == null) {
+                        fid = data.from;
+                    }
+                    pc.setRemoteDescription(data).then(_ =>
+                        pc.createAnswer(peerConnectionOfferAnswerCriteria).then(ans =>
+                            pc.setLocalDescription(ans).then(_ =>
+                                sendMessage(fid, mid, "answer", ans.sdp)
+                            )
                         )
                     )
-                )
-                    .catch((e) => console.log("set Remote offer error", e));
+                        .catch((e) => console.log("set Remote offer error", e));
+                } else {
+                    console.log("not ready yet, no pc created.");
+                }
                 break;
             case "answer":
-                pc.setRemoteDescription(data)
-                    .then( _ => {
-                        //$("#action").text("hangup");
-                    })
-                    .catch(e => console.log("set Remote answer error", e) );
+                if ((session) && (session === data.session)) {
+                    window.clearInterval(offerSendLoop);
+                    pc.setRemoteDescription(data)
+                        .then(_ => {
+                            //$("#action").text("hangup");
+                        })
+                        .catch(e => console.log("set Remote answer error", e));
+                } else {
+                    console.log("Got answer we were not expecting. Session was "+session+" data.session was "+data.session);
+                    alert("Mixup in sessions for answer");
+                }
                 break;
             case "candidate":
-                var jc = {
-                    sdpMLineIndex: 0,
-                    candidate: data.sdp
-                };
-                console.log("adding candidate ", jc);
-                var nc = new RTCIceCandidate(jc);
-                pc.addIceCandidate(nc)
-                    .then( _ => console.log("added remote candidate"))
-                    .catch((e) => console.log("couldn't add candidate ", e));
+                if ((session) && (session === data.session)) {
+                    var jc = {
+                        sdpMLineIndex: 0,
+                        candidate: data.sdp
+                    };
+                    console.log("adding candidate ", jc);
+                    var nc = new RTCIceCandidate(jc);
+                    pc.addIceCandidate(nc)
+                        .then(_ => console.log("added remote candidate"))
+                        .catch((e) => console.log("couldn't add candidate ", e));
+                } else {
+                    console.log("Session error for candidates. Session was "+session+" data.session was "+data.session);
+                }
                 break;
         }
     }
 
+    function sendJ(m){
+        var message = JSON.stringify(m);
+        console.log("sending ", m);
+        socket.send(message);
+    }
     function sendMessage(to,from,type,data){
+
         var messageJ = {
             to:to,
+            retry:0,
             from:from,
             type:type,
             sdp:data
         };
-
-        var message = JSON.stringify(messageJ);
-        console.log("sending ", messageJ);
-        socket.send(message);
+        if (type==='offer') {
+            messageJ.retry = 5;
+            session = Date.now();
+            messageJ.session = session;
+            offerSendLoop = window.setInterval((it) => {
+                if (messageJ.retry > 0) {
+                    messageJ.retry--;
+                    sendJ(messageJ);
+                } else {
+                    window.clearInterval(offerSendLoop);
+                    console.log("given up on ", messageJ);
+                }
+            }, 10000);
+        } else {
+            messageJ.session = session;
+        }
+        // so either way we send it once _immediately_
+        // offers we keep sending for a minute - 'till we see an answer or....
+        sendJ(messageJ);
     }
 
     // button actions
