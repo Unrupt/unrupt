@@ -17,7 +17,7 @@
         #in {
             transform: rotateY(180deg);
         }
-        
+
         video {
             width: 100%;
         }
@@ -48,7 +48,7 @@
 <h1 id="title" class="text-center">Unrupt Calls</h1>
 <h3 id="useragent"></h3>
 <div class="alert alert-info" id="message_holder">
-  
+
 </div>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -130,7 +130,7 @@
         </div>
         <div id="chosenAction">
             <button class="unrupt-action-btn btn btn-primary btn-lg" data-clipboard-target="#unrupturl">copy url</button>
-            <button id="action" type="button" class="btn btn-primary btn-lg></button>
+            <button id="action" type="button" class="btn btn-primary btn-lg"></button>
             <button id="pause" type="button" class="btn btn-primary btn-lg">pause</button>
             <button id="mute" type="button" class="btn btn-primary btn-lg">mute</button>
             <button id="unruptToggle" type="button" class="btn btn-primary btn-lg">Pause-while-speaking on</button>
@@ -778,7 +778,6 @@
             thisUserMediaElement.muted = true;
             document.getElementById('thisUser').appendChild(thisUserMediaElement);
 
-
         } else {
             var mediaElement = document.createElement('audio');
             mediaElement.id = 'out';
@@ -791,12 +790,14 @@
         $('#version').text(properties.versionname);
         tick = window.setInterval( t => {
             var scale = properties.maxStashFrames / 100.0;
+            var timeline_length = Math.floor(properties.maxStashFrames * properties.procFramesize / 44100);
             var spk = backlog_spk / scale;
             var sil = backlog_sil / scale;
             var timeline = Math.floor((backlog_spk + backlog_sil) * properties.procFramesize / 44100.0);
-            $('#unruptbuffer_len').text(timeline + " seconds");
+            $('#unruptbuffer_len').text(timeline + "/" + timeline_length + " seconds");
             $('#unruptbuffer_sil').css('width', sil + "%").attr('aria-valuenow', sil);
             $('#unruptbuffer_spk').css('width', spk + "%").attr('aria-valuenow', spk);
+
             var playout = backlog > 1 ? "playing" : "direct";
             var mode = (iamspeaking || paused) ? "paused" : playout;
             $('#mode').text(mode);
@@ -833,7 +834,7 @@
          message_holder.html('<strong>' + message + '</strong>');
          message_holder.addClass("flash-message");
          setTimeout(function(){ message_holder.removeClass("flash-message"); }, 3000);
-        
+
 
     });
 

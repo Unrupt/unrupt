@@ -1,0 +1,119 @@
+@media (min-height: 199.99px) and (min-width: 149.99px) {
+    .video {
+        width: 240px;
+        height: 320px;
+        background: greenyellow;
+        margin: 0 auto;
+    }
+
+    h1 {
+        font-size: 1.3em;
+    }
+}
+
+#unrupturl {
+    position: absolute;
+    left: -9999px;
+}
+
+
+@media (min-height: 699.99px) and (min-width: 299.99px) {
+    .video {
+        width: 240px;
+        height: 604px;
+        background: gold;
+    }
+}
+
+@media (min-height: 650.99px) and (min-width: 350.99px) {
+    .video {
+        width: 309px;
+        height: 550px;
+        background: red;
+    }
+}
+
+@media (min-height: 799.99px) and (min-width: 599.99px) {
+    .video {
+        width: 480px;
+        height: 640px;
+        background: goldenrod;
+
+    }
+}
+
+@media (min-height: 1023.99px) and (min-width: 799.99px) {
+    .video {
+        width: 720px;
+        height: 960px;
+        background: darkgoldenrod;
+    }
+}
+
+@media (min-height: 1299.99px) and (min-width: 999.99px) {
+    .video {
+        width: 960px;
+        height: 1280px;
+        background: darkolivegreen;
+    }
+}
+
+#out {
+    transform: rotateY(180deg);
+    width: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-size: contain;
+    background-position: center;
+}
+
+#in {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 96px;
+    height: 128px;
+}
+
+
+#audioInfo {
+    position: relative;
+
+}
+
+#otherUser {
+    position: relative;
+
+}
+
+#chosenAction {
+    clear: both;
+    text-align: center;
+}
+
+
+.playpause {
+    display: none;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-size: contain;
+    background-position: center;
+    z-index: 99999;
+}
+
+#message_holder {
+    display: none;
+}
+
+#message_holder.flash-message {
+    display: block
+}
+
+;
