@@ -1,5 +1,5 @@
 var properties = {
-    versionname: "Default", // update this to indicate which version of the settings this is
+    versionname: "Unrupt Demo 1.0", // update this to indicate which version of the settings this is
     procFramesize: 4096, // how many samples (at 44k1 Hz) in a frame. default 4096 ->  ~100ms
     // this impacts the latency - but go too low and the audio will break up
     scopeFftSize: 2048, // number of samples in the FFT for the oscilloscope. default 2048 seems ok
@@ -111,7 +111,7 @@ function messageDeal(event) {
                 window.clearInterval(offerSendLoop);
                 pc.setRemoteDescription(data)
                     .then(_ => {
-                        $("#action").text("hangup");
+//                        $("#action").text("hangup");
                     })
                     .catch(e => console.log("set Remote answer error", e));
             } else {
@@ -813,10 +813,11 @@ $(document).ready(_ => {
     //$('#version').text(properties.versionname);
     tick = window.setInterval(t => {
         var scale = properties.maxStashFrames / 100.0;
+        var timeline_length = Math.floor(properties.maxStashFrames * properties.procFramesize / 44100);
         var spk = backlog_spk / scale;
         var sil = backlog_sil / scale;
         var timeline = Math.floor((backlog_spk + backlog_sil) * properties.procFramesize / 44100.0);
-        $('#unruptbuffer_len').text(timeline + " seconds");
+        $('#unruptbuffer_len').text(timeline + "/" + timeline_length + " seconds");
         $('#unruptbuffer_sil').css('width', sil + "%").attr('aria-valuenow', sil);
         $('#unruptbuffer_spk').css('width', spk + "%").attr('aria-valuenow', spk);
         var playout = backlog > 1 ? "playing" : "direct";
