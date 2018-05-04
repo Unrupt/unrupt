@@ -2,7 +2,6 @@
     .video {
         width: 240px;
         height: 320px;
-        background: greenyellow;
         margin: 0 auto;
     }
 
@@ -21,7 +20,6 @@
     .video {
         width: 240px;
         height: 604px;
-        background: gold;
     }
 }
 
@@ -29,7 +27,6 @@
     .video {
         width: 309px;
         height: 550px;
-        background: red;
     }
 }
 
@@ -37,7 +34,6 @@
     .video {
         width: 480px;
         height: 640px;
-        background: goldenrod;
 
     }
 }
@@ -46,7 +42,6 @@
     .video {
         width: 720px;
         height: 960px;
-        background: darkgoldenrod;
     }
 }
 
@@ -54,8 +49,11 @@
     .video {
         width: 960px;
         height: 1280px;
-        background: darkolivegreen;
     }
+}
+
+video#out {
+    background: #222;
 }
 
 #out {
@@ -70,12 +68,41 @@
     background-position: center;
 }
 
-#in {
+#my-webcam {
     position: absolute;
-    left: 0px;
+    right: 0px;
     bottom: 0px;
-    width: 96px;
-    height: 128px;
+    width: 150px;
+    z-index: 1000;
+    background: rgba(0,0,0,.1);
+}
+
+#in {
+    width: 100%;
+}
+
+.badge-speak{
+    display: none;
+}
+
+canvas#nearscope, canvas#farscope {
+    z-index: 1000;
+    background: rgba(0,0,0,.1);
+    position: absolute;
+    bottom: 0px;
+/*    left: 45px;*/
+/*    width: 60px;*/
+    height: 40px;
+    width: 100%;
+}
+
+canvas#nearscope{
+    max-width: 50%;
+}
+
+canvas#farscope{
+    width: 50%;
+    left: 0px;
 }
 
 

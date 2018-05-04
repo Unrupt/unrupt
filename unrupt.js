@@ -470,7 +470,7 @@ function addStream(stream, kind) {
 
         var scope = doScopeNode(yourac, peer, "farscope");
         var buffproc = yourProc(scope);
-        var scope2 = doScopeNode(yourac, buffproc, "earscope");
+        var scope2 = doScopeNode(yourac, buffproc, "nearscope");
         scope2.connect(yourac.destination);
         //$("#chosenAction").show();
     }
@@ -560,9 +560,10 @@ function setupAudio() {
                 var node = myac.createMediaStreamSource(stream);
                 var detect = myProc(node);
                 var manl = doScopeNode(myac, detect, "nearscope");
-                //                var dest = myac.createMediaStreamDestination();
-                //                manl.connect(dest);
-                //                var lstream = dest.stream;
+                var dest = myac.createMediaStreamDestination();
+                manl.connect(dest);
+                var lstream = dest.stream;
+
                 if (pc.addTrack) {
                     stream.getTracks().forEach(track => {
                         pc.addTrack(track, stream);
@@ -714,11 +715,13 @@ function makeDraw(canvName, anode) {
 
             analyser.getByteTimeDomainData(dataArray);
 
-            canvasCtx.fillStyle = 'rgb(200, 200, 200)';
-            canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+//            canvasCtx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+//            canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+            canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
 
             canvasCtx.lineWidth = 2;
-            canvasCtx.strokeStyle = 'rgb(0, 0, 0)';
+            canvasCtx.strokeStyle = 'rgb(173, 255, 47)';
 
             canvasCtx.beginPath();
 
@@ -798,7 +801,7 @@ $(document).ready(_ => {
         //thisUserMediaElement.setAttribute("autoplay", "true");
 
 
-        document.getElementById('otherUser').appendChild(thisUserMediaElement);
+        document.getElementById('my-webcam').appendChild(thisUserMediaElement);
 
 
     } else {
