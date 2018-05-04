@@ -59,10 +59,10 @@ video#out {
 #other-webcam{
     transform: rotateY(180deg);
     width: 100%;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: relative;
+    /* left: 0; */
+    /* right: 0; */
+    /* bottom: 0; */
     margin: auto;
     background-size: contain;
     background-position: center;
@@ -94,7 +94,7 @@ canvas#nearscope, canvas#farscope {
     z-index: 1000;
     /* background: rgba(0,0,0,.1); */
     position: absolute;
-    bottom: 0px;
+    top: 40%;
     /*    left: 45px;*/
     /*    width: 60px;*/
     height: 40px;
@@ -102,12 +102,15 @@ canvas#nearscope, canvas#farscope {
 }
 
 canvas#nearscope{
-    max-width: 50%;
+    /* max-width: 50%; */
+    /* background: blue; */
 }
 
 canvas#farscope{
-    width: 50%;
-    left: 0px;
+    /* width: 50%; */
+    /* left: 35%; */
+    top: 0;
+    /* background: red; */
 }
 
 
