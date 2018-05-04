@@ -57,7 +57,7 @@ video#out {
 }
 
 #other-webcam{
-    transform: rotateY(180deg);
+/*    transform: rotateY(180deg);*/
     width: 100%;
     position: relative;
     /* left: 0; */
@@ -66,6 +66,10 @@ video#out {
     margin: auto;
     background-size: contain;
     background-position: center;
+}
+
+span.badge.badge-person.badge-secondary {
+    position: absolute;
 }
 
 #out {
