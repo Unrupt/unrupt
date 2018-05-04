@@ -525,7 +525,7 @@ function setupRTC() {
                 sendMessage(fid, mid, "candidate", can.candidate);
             }
             var act = $("#action");
-            act.text("hangup call");
+            // act.text("hangup call");
             act.click(_ => stopCall());
         }
     };
