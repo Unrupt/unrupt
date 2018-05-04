@@ -715,9 +715,6 @@ function makeDraw(canvName, anode) {
 
             analyser.getByteTimeDomainData(dataArray);
 
-//            canvasCtx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-//            canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
-
             canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
 
             canvasCtx.lineWidth = 2;
