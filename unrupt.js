@@ -789,7 +789,7 @@ $(document).ready(_ => {
         //otherUserMediaElement.setAttribute("autoplay", "true");
 
 
-        document.getElementById('otherUser').appendChild(otherUserMediaElement);
+        document.getElementById('other-webcam').appendChild(otherUserMediaElement);
 
         var thisUserMediaElement = document.createElement('video');
         thisUserMediaElement.id = 'in';
