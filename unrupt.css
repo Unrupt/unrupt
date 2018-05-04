@@ -75,7 +75,7 @@ video#out {
     width: 150px;
     z-index: 1000;
     background: rgba(0,0,0,.1);
-    height: 150px;
+    height: 118px;
 }
 
 #in {
