@@ -439,8 +439,8 @@ function addStream(stream, kind) {
         console.log('Video stream');
 
         mediaElement.onloadedmetadata = function (e) {
-            mediaElement.play();
-//            mediaElement.muted = true;
+            //mediaElement.play();
+            mediaElement.muted = true;
         };
     }
     if (kind.indexOf("audio") != -1) {
