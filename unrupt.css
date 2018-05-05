@@ -10,6 +10,15 @@
     }
 }
 
+.container-panel {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+div#video-panel {
+    background: #333;
+}
+
 #unrupturl {
     position: absolute;
     left: -9999px;
@@ -82,7 +91,7 @@ span.badge.badge-person.badge-secondary {
     bottom: 5px;
     width: 150px;
     z-index: 1000;
-    background: rgba(0,0,0,.1);
+/*    background: rgba(0,0,0,.1);*/
     height: 118px;
 }
 
@@ -152,7 +161,9 @@ canvas#farscope{
 }
 
 #message_holder.flash-message {
-    display: block
+    display: block;
 }
 
-;
+.card[mode="speaking"] {
+    border-color: greenyellow;
+}

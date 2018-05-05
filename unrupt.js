@@ -1,23 +1,3 @@
-var properties = {
-    versionname: "Unrupt Demo 1.0", // update this to indicate which version of the settings this is
-    procFramesize: 4096, // how many samples (at 44k1 Hz) in a frame. default 4096 ->  ~100ms
-    // this impacts the latency - but go too low and the audio will break up
-    scopeFftSize: 2048, // number of samples in the FFT for the oscilloscope. default 2048 seems ok
-    micSilenceThreshold: 0.0175, // minumum mean mic volume (in range of 0.0->1.0) of a frame that contains voice
-    // used to trigger pause/unpause
-    // default 0.0175 ok on imacs
-    farSilenceThreshold: 0.0175, // minimum mean remote volume (in range of 0.0->1.0) of a frame that contains voice
-    // used to trim silence from playout
-    // default 0.0175 ok on imacs
-
-    minFramesSilenceForPause: 15, // number of silent near frames (from mic) before we unpause and re-start playback.
-    minFramesSilenceForPlay: 3, // number of silent frames before we start to clip silence from playback. default 3 (300ms)
-    maxStashFrames: 500, // longest possible pause (in frames). default 1000 -> 100 sec
-    websocketURL: "wss://pi.pe/websocket/?finger=" // where to find the redezvous server.
-};
-
-
-
 var webRTCconfiguration = {
     "iceServers": [
         {
@@ -706,6 +686,8 @@ function makeDraw(canvName, anode) {
     var dataArray = new Uint8Array(bufferLength);
     var canvas = document.getElementById(canvName);
     var badge = document.getElementById(canvName + "-badge");
+    var card = document.getElementById("card-voice-" + canvName);
+    var cTimeout = null;
     if ((badge) && (canvas)) {
         var canvasCtx = canvas.getContext("2d");
         // oscilloscope - for debug.
@@ -715,10 +697,11 @@ function makeDraw(canvName, anode) {
 
             analyser.getByteTimeDomainData(dataArray);
 
-            canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+            canvasCtx.fillStyle = 'rgb(200, 200, 200)';
+            canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
 
             canvasCtx.lineWidth = 2;
-            canvasCtx.strokeStyle = 'rgb(173, 255, 47)';
+            canvasCtx.strokeStyle = 'rgb(0, 0, 0)';
 
             canvasCtx.beginPath();
 
@@ -746,7 +729,24 @@ function makeDraw(canvName, anode) {
             if (newspeak != speaking) {
                 speaking = newspeak;
                 //console.log("newspeak "+newspeak+" mean "+mean);
-                badge.innerText = speaking ? "Speaking" : "Silent";
+                if (!speaking){
+                    cTimeout = setTimeout(function(){
+                        card.setAttribute(
+                            "mode",
+                            "silent"
+                        );
+                        badge.innerText = "Silent";
+                    }, 1000);
+                }else{
+                    if (cTimeout != null){
+                        clearTimeout(cTimeout);
+                    }
+                    card.setAttribute(
+                        "mode",
+                        "speaking"
+                    );
+                    badge.innerText = "Speaking";
+                }
             }
             canvasCtx.lineTo(canvas.width, canvas.height / 2);
             canvasCtx.stroke();

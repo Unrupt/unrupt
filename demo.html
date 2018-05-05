@@ -17,33 +17,58 @@
         <h1 id="title" class="text-center">Unrupt Calls</h1>
         <h3 id="useragent"></h3>
         <div class="alert alert-info" id="message_holder"></div>
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
-        <script src="https://pi.pe/iot/js/qrcode.js"></script>
 
         <h1 id="title" class="text-center"><a target="_blank" href="https://docs.google.com/document/d/1UAAJUiSZ99gehOnBDvY33yO4yRx-voZ71OsuZrqpiDY/edit">Family Systems</a> <a href="ios.html">Unrupt Demo 1.0</a></h1>
-        <div class="video" id="otherUser" onclick="doPlay();">
-            <div id="pauseOther" class="playpause">
-                <object data="pause.svg"></object>
+        <div id="video-panel" class="container-panel">
+            <div class="video" id="otherUser" onclick="doPlay();">
+                <div id="pauseOther" class="playpause">
+                    <object data="pause.svg"></object>
+                </div>
+                <div class="video-holder" id="my-webcam">
+    <!--
+                    <span class="badge badge-person badge-secondary">
+                        You
+                    </span>
+                    <span id="nearscope-badge" class="badge badge-speak badge-secondary">Silent</span>
+                    <canvas id="nearscope">Scope</canvas>
+    -->
+                </div>
+                <div class="video-holder" id="other-webcam">
+    <!--
+                    <span class="badge badge-person badge-secondary">
+                        Other Person
+                    </span>
+                    <span id="farscope-badge" class="badge badge-speak badge-secondary">Silent</span>
+                    <canvas id="farscope">Scope</canvas>
+    -->
+                </div>
             </div>
-            <div class="video-holder" id="my-webcam">
-                <span class="badge badge-person badge-secondary">
-                    You
-                </span>
-                <span id="nearscope-badge" class="badge badge-speak badge-secondary">Silent</span>
-                <canvas id="nearscope">Scope</canvas>
-            </div>
-            <div class="video-holder" id="other-webcam">
-                <span class="badge badge-person badge-secondary">
-                    Other Person
-                </span>
-                <span id="farscope-badge" class="badge badge-speak badge-secondary">Silent</span>
-                <canvas id="farscope">Scope</canvas>
+
+        </div>
+        <div id="voice-panel" class="container-panel">
+            <div class="row">
+                <div class="col-4 card" id="card-voice-farscope">
+                    <div class="card-header buffer-label">Far <span id="farscope-badge" class="badge badge-secondary">Silent</span></div>
+                    <div class="card-body">
+                        <canvas id="farscope" style="height:40px;width:60px;">Scope</canvas>
+                    </div>
+                </div>
+                <div class="col-4 card" id="card-voice-earscope">
+                    <div class="card-header buffer-label">Play <span id="earscope-badge" class="badge badge-secondary">Silent</span>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="earscope" style="height:40px;width:60px;">Scope</canvas>
+                    </div>
+                </div>
+                <div class="col-4 card" id="card-voice-nearscope">
+                    <div class="card-header buffer-label">Near <span id="nearscope-badge" class="badge badge-secondary">Silent</span></div>
+                    <div class="card-body">
+                        <canvas id="nearscope" style="height:40px;width:60px;">Scope</canvas>
+                    </div>
+                </div>
             </div>
         </div>
+
         <div class="container">
             <div class="progress">
                 <div id="unruptbuffer_spk" class="progress-bar progress-bar-striped bg-warning" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
@@ -61,6 +86,8 @@
                 <button id="unruptToggle" type="button" class="btn btn-primary btn-lg"><i id="pwsIcon" class="fa fa-exchange fa-2x" aria-hidden="true"></i></button>
             </div>
         </div>
+
+        <!--  Start Modals     -->
         <div id="share" class="modal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -91,8 +118,14 @@
                 </div>
             </div>
         </div>
+        <!--  End Modals      -->
+
         <input type="hidden" id="unrupturl" />
-        <!--script src="properties.js"></script-->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
+        <script src="https://pi.pe/iot/js/qrcode.js"></script>
+        <script src="properties.js"></script>
         <script src="clipboard.min.js"></script>
         <script src="unrupt.js"></script>
 
