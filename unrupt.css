@@ -169,7 +169,7 @@ canvas#nearscope, canvas#farscope, canvas#earscope {
 }
 
 .card .card-body{
-    min-height: 106px;
+    min-height: 110px;
 }
 
 .card[mode="speaking"] .card-body{
