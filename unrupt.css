@@ -85,7 +85,7 @@ span.badge.badge-person.badge-secondary {
     width: 100%;
 }
 
-#my-webcam {
+.video #my-webcam {
     position: absolute;
     right: 5px;
     bottom: 5px;
@@ -103,23 +103,27 @@ span.badge.badge-person.badge-secondary {
     display: none;
 }
 
-canvas#nearscope, canvas#farscope {
+.video canvas#nearscope, .video canvas#farscope {
     z-index: 1000;
     /* background: rgba(0,0,0,.1); */
     position: absolute;
     top: 40%;
     /*    left: 45px;*/
     /*    width: 60px;*/
-    height: 40px;
-    width: 100%;
 }
 
-canvas#nearscope{
+canvas#nearscope, canvas#farscope, canvas#earscope {
+    width: 100%;
+/*    width: 60px;*/
+    height: 40px;
+}
+
+.video canvas#nearscope{
     /* max-width: 50%; */
     /* background: blue; */
 }
 
-canvas#farscope{
+.video canvas#farscope{
     /* width: 50%; */
     /* left: 35%; */
     top: 0;
@@ -164,6 +168,10 @@ canvas#farscope{
     display: block;
 }
 
-.card[mode="speaking"] {
-    border-color: greenyellow;
+.card[mode="speaking"] .card-body{
+    border: 10px solid greenyellow;
+}
+
+.badge.badge-secondary{
+    display: none;
 }
