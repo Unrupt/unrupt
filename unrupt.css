@@ -168,11 +168,9 @@ canvas#nearscope, canvas#farscope, canvas#earscope {
     display: block;
 }
 
-/*
 .card .card-body{
     min-height: 106px;
 }
-*/
 
 .card[mode="speaking"] .card-body{
     border: 10px solid greenyellow;

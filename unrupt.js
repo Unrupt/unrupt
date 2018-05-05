@@ -450,7 +450,7 @@ function addStream(stream, kind) {
 
         var scope = doScopeNode(yourac, peer, "farscope");
         var buffproc = yourProc(scope);
-        var scope2 = doScopeNode(yourac, buffproc, "nearscope");
+        var scope2 = doScopeNode(yourac, buffproc, "earscope");
         scope2.connect(yourac.destination);
         //$("#chosenAction").show();
     }
