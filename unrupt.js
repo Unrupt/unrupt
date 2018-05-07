@@ -743,16 +743,30 @@ function makeDraw(canvName, anode) {
                         );
                         badge.innerText = "Silent";
                     }, 500);
-                }else if (canvName != "earscope" && !is_speaking["farscope"]){
+                }else{
+                    if (canvName == "earscope") {
+                        if ( !is_speaking["farscope"] && is_speaking["nearscope"] ){
 
-                    if (cTimeout != null){
-                        clearTimeout(cTimeout);
+                            if (cTimeout != null){
+                                clearTimeout(cTimeout);
+                            }
+                            card.setAttribute(
+                                "mode",
+                                "speaking"
+                            );
+                            badge.innerText = "Speaking";
+                        }
+
+                    } else {
+                        if (cTimeout != null){
+                            clearTimeout(cTimeout);
+                        }
+                        card.setAttribute(
+                            "mode",
+                            "speaking"
+                        );
+                        badge.innerText = "Speaking";
                     }
-                    card.setAttribute(
-                        "mode",
-                        "speaking"
-                    );
-                    badge.innerText = "Speaking";
                 }
             }
             canvasCtx.lineTo(canvas.width, canvas.height / 2);
