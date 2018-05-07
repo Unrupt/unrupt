@@ -1,8 +1,8 @@
+/*
 @media (min-height: 199.99px) and (min-width: 149.99px) {
     .video {
         width: 240px;
         height: 320px;
-        background: greenyellow;
         margin: 0 auto;
     }
 
@@ -10,18 +10,14 @@
         font-size: 1.3em;
     }
 }
+*/
 
-#unrupturl {
-    position: absolute;
-    left: -9999px;
-}
-
+/*
 
 @media (min-height: 699.99px) and (min-width: 299.99px) {
     .video {
         width: 240px;
         height: 604px;
-        background: gold;
     }
 }
 
@@ -29,7 +25,6 @@
     .video {
         width: 309px;
         height: 550px;
-        background: red;
     }
 }
 
@@ -37,7 +32,6 @@
     .video {
         width: 480px;
         height: 640px;
-        background: goldenrod;
 
     }
 }
@@ -46,36 +40,98 @@
     .video {
         width: 720px;
         height: 960px;
-        background: darkgoldenrod;
     }
 }
 
-@media (min-height: 1299.99px) and (min-width: 999.99px) {
-    .video {
-        width: 960px;
-        height: 1280px;
-        background: darkolivegreen;
-    }
+*/
+
+h1 {
+    font-size: 1.3em;
 }
 
-#out {
-    transform: rotateY(180deg);
-    width: 100%;
+.container-panel {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+div#video-panel {
+    background: #333;
+}
+
+#unrupturl {
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    left: -9999px;
+}
+
+video#out {
+    background: #222;
+}
+
+#other-webcam{
+/*    transform: rotateY(180deg);*/
+    width: 100%;
+    position: relative;
+    /* left: 0; */
+    /* right: 0; */
+    /* bottom: 0; */
     margin: auto;
     background-size: contain;
     background-position: center;
 }
 
-#in {
+span.badge.badge-person.badge-secondary {
     position: absolute;
-    left: 0px;
-    bottom: 0px;
-    width: 96px;
-    height: 128px;
+}
+
+#out {
+    width: 100%;
+    height: 118px;
+}
+
+.video #my-webcam {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    width: 150px;
+    z-index: 1000;
+/*    background: rgba(0,0,0,.1);*/
+    height: 118px;
+}
+
+#in {
+    width: 100%;
+    height: 118px;
+}
+
+.badge-speak{
+    display: none;
+}
+
+.video canvas#nearscope, .video canvas#farscope {
+    z-index: 1000;
+    /* background: rgba(0,0,0,.1); */
+    position: absolute;
+    top: 40%;
+    /*    left: 45px;*/
+    /*    width: 60px;*/
+}
+
+canvas#nearscope, canvas#farscope, canvas#earscope {
+    width: 100%;
+/*    width: 60px;*/
+    height: 40px;
+}
+
+.video canvas#nearscope{
+    /* max-width: 50%; */
+    /* background: blue; */
+}
+
+.video canvas#farscope{
+    /* width: 50%; */
+    /* left: 35%; */
+    top: 0;
+    /* background: red; */
 }
 
 
@@ -86,12 +142,13 @@
 
 #otherUser {
     position: relative;
-
+    background: #333;
 }
 
 #chosenAction {
     clear: both;
     text-align: center;
+    margin-bottom: 20px;
 }
 
 
@@ -113,7 +170,65 @@
 }
 
 #message_holder.flash-message {
-    display: block
+    display: block;
 }
 
-;
+.card.card-voice .card-body{
+    min-height: 110px;
+    padding-left: 0px;
+    padding-right: 0px;
+    border: 10px solid rgba(255,255,255,0);
+}
+
+.card[mode="speaking"] .card-body{
+    border: 10px solid greenyellow;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.badge.badge-secondary{
+    display: none;
+}
+
+.no-side-margin{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 500px) {
+    #chosenAction .fa.fa-2x, #chosenAction .fas.fa-2x {
+        font-size: 1.8em; !important;
+    }
+}
+
+#chosenAction button.btn{
+    padding: 5px 10px; !important;
+/*    font-size: auto;*/
+}
+
+@media (max-width: 700px) {
+    .video {
+        width: 100%;
+        height: 60vh;
+    }
+
+    #out {
+        width: 100%;
+        height: 60vh;
+    }
+
+    body[has-video="false"] .video{
+        height: 30vh;
+    }
+
+    body[has-video="false"] #out{
+        height: 30vh;
+    }
+}
+
+@media (min-width: 701px) {
+    .video {
+        width: 720px;
+        height: 960px;
+    }
+}

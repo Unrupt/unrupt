@@ -9,9 +9,8 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <style>
-        #chooseAction, /*#chosenAction,*/ #audioInfo, #videoRow{
+        #chooseAction, #chosenAction, #audioInfo, #videoRow{
             display:none;
         }
         #unrupturl{position:absolute;left:-9999px;}
@@ -52,6 +51,11 @@
 <div class="alert alert-info" id="message_holder">
 
 </div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
 <div id="audioInfo" class="card">
     <div>
@@ -126,39 +130,21 @@
             <button id="chooseActionVideo" type="button" class="btn btn-primary btn-lg">Audio &amp; Video</button>
         </div>
         <div id="chosenAction">
-            <button class="unrupt-action-btn btn btn-primary btn-lg" data-clipboard-target="#unrupturl">
-                <i class="fa fa-share-alt fa-2x" aria-hidden="true"></i>
-            </button>
-            <button id="action" type="button" class="btn btn-primary btn-lg">
-                <i class="fa fa-times-circle fa-2x" aria-hidden="true"></i>
-            </button>
-            <button id="chooseActionVideo" type="button" class="btn btn-primary btn-lg">
-                <i id="videoOff" class="fa fa-video-camera fa-2x" aria-hidden="true"></i>
-            </button>
-            <button id="pause" type="button" class="btn btn-primary btn-lg">
-                <i id="pauseIcon" class="fa fa-play-circle fa-2x" aria-hidden="true"></i>
-            </button>
-            <button id="mute" type="button" class="btn btn-primary btn-lg">
-                <i id="muteIcon" class="fa fa-microphone fa-2x" aria-hidden="true"></i>
-            </button>
-            <button id="unruptToggle" type="button" class="btn btn-primary btn-lg">
-                <i id="pwsIcon" class="fa fa-exchange fa-2x" aria-hidden="true"></i>
-            </button>
-
+            <button class="unrupt-action-btn btn btn-primary btn-lg" data-clipboard-target="#unrupturl">copy url</button>
+            <button id="action" type="button" class="btn btn-primary btn-lg"></button>
+            <button id="pause" type="button" class="btn btn-primary btn-lg">pause</button>
+            <button id="mute" type="button" class="btn btn-primary btn-lg">mute</button>
+            <button id="unruptToggle" type="button" class="btn btn-primary btn-lg">Pause-while-speaking on</button>
             <span id="mode" class="badge badge-primary">Direct</span>
         </div>
 
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
-<script src="https://pi.pe/iot/js/qrcode.js"></script>
 <script src="properties.js"></script>
 <script src="clipboard.min.js"></script>
-<!--<script src="david-unrupt.js"></script>-->
-<script src="unrupt.js"></script>
+<script src="david-unrupt.js"></script>
+<!--<script src="unrupt.js"></script>-->
 <input type="hidden" id="unrupturl" />
 
 </body>

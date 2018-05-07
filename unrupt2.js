@@ -50,13 +50,6 @@ var framecount = 0;
 var mode = "waiting";
 var offerSendLoop;
 var session;
-var call_has_ended = true;
-var call_history = {};
-var is_speaking = {
-    "farscope": false,
-    "nearscope": false,
-    "earscope": false
-};
 
 // message stuff - used to create direct connection to peer over WEBRTC
 
@@ -175,7 +168,6 @@ function startCall(cid) {
 }
 
 function stopCall() {
-    localStorage.setItem("call_has_ended", true);
     window.location.href = window.location.href;
 }
 
@@ -239,15 +231,15 @@ function yourProc(node) {
             document.getElementById('out').muted = false;
             document.getElementById('out').play();
             $('#pauseOther').hide();
-            ubi.removeClass("fa-exchange-alt");
-            ubi.addClass("fa-arrows-alt-h");
+            ubi.removeClass("fa-exchange");
+            ubi.addClass("fa-arrows-h");
         } else {
             unruptEnabled = true;
             console.log('connecting the buffer');
             node.connect(buffer);
             document.getElementById('out').muted = true;
-            ubi.removeClass("fa-arrows-alt-h");
-            ubi.addClass("fa-exchange-alt");
+            ubi.removeClass("fa-arrows-h");
+            ubi.addClass("fa-exchange");
         }
     }
 
@@ -458,7 +450,7 @@ function addStream(stream, kind) {
 
         var scope = doScopeNode(yourac, peer, "farscope");
         var buffproc = yourProc(scope);
-        var scope2 = doScopeNode(yourac, buffproc, "earscope");
+        var scope2 = doScopeNode(yourac, buffproc, "nearscope");
         scope2.connect(yourac.destination);
         //$("#chosenAction").show();
     }
@@ -537,7 +529,7 @@ function setupAudio() {
     //var gumConstraints = {audio: true, video: videoEnabled ? {width: 640, height: 480} : false};
     var gumConstraints = {
         audio: true,
-        video: videoEnabled
+        video: true
     };
 
     var promise = new Promise(function (resolve, reject) {
@@ -588,14 +580,11 @@ function setupAudio() {
 
 function doPlay() {
     var ourMediaElement = document.getElementById('in');
-    if ( ourMediaElement  ){
-        console.log("onclick for in video");
-        ourMediaElement.play();
-    }
+
+    console.log("onclick for in video");
+    ourMediaElement.play();
     var theirMediaElement = document.getElementById('out');
-    if ( theirMediaElement ){
-        theirMediaElement.play();
-    }
+    theirMediaElement.play();
 }
 
 
@@ -603,8 +592,8 @@ function shared() {
     setupRTC();
     setupAudio().then(_ => {
         console.log("ready for offer");
-        localStorage.setItem("call_has_ended", false);
         doPlay();
+
     });
 }
 
@@ -612,44 +601,10 @@ function accepted() {
     setupRTC();
     setupAudio().then(_ => {
         console.log("ready for offer");
-        localStorage.setItem("call_has_ended", false);
-        startCall(cid);
+        startCall(cid)
         doPlay();
     });
 }
-
-/** Set the pair of ids from localStorage to call history. */
-function getConversationEntries(){
-    var data = localStorage['call_history'];
-    if (data == null)
-        call_history = {};
-    else
-        call_history = JSON.parse(data);
-}
-
-/**
- * Get mid
- * @returns Returns mid from the cEntries if found, else return null;
- */
-function getMID() {
-    var cid = $.getUrlVar("unruptId");
-    if (!mid) {
-        getConversationEntries();
-    }
-    return call_history[cid];
-}
-
-/**
- * Save the cid and mid as key-value pairs in localStorage.
- * @param {string} id - mid or current user id
- */
-function saveMID(id){
-    var cid = $.getUrlVar("unruptId");
-    call_history[cid] = id;
-    data = JSON.stringify(call_history)
-    localStorage.setItem('call_history', data);
-}
-
 // decide who we are initiator or recpient.
 // notice that the actual call goes in the reverse direction
 // the recipient of the invite actually creates the audiobearing peerconnection
@@ -707,13 +662,7 @@ function setRole() {
             initiator = (mid === cid);
             console.log(initiator ? 'We are the initiator' : 'We are not the initiator');
             var smodal = initiator ? "#share" : "#accept";
-            if( call_has_ended ){
-                $(smodal).modal('show');
-            }else if ( initiator ) {
-                shared();
-            }else{
-                accepted();
-            }
+            $(smodal).modal('show');
         };
         socket.onerror = (e) => {
             console.log("can't open websocket", e);
@@ -726,9 +675,7 @@ function setRole() {
 }
 
 $(document).on('click', "#chooseActionVideo", function () {
-    var $this = $(this);
-    var param = videoEnabled ? 0 : 1;
-    document.location = location.pathname + "?" + "unruptId=" + cid + "&video=" + param;
+    document.location = location.pathname + "?" + "unruptId=" + mid + "&video=1";
 });
 
 // thing that draws the scopes...
@@ -739,8 +686,6 @@ function makeDraw(canvName, anode) {
     var dataArray = new Uint8Array(bufferLength);
     var canvas = document.getElementById(canvName);
     var badge = document.getElementById(canvName + "-badge");
-    var card = document.getElementById("card-voice-" + canvName);
-    var cTimeout = null;
     if ((badge) && (canvas)) {
         var canvasCtx = canvas.getContext("2d");
         // oscilloscope - for debug.
@@ -750,11 +695,10 @@ function makeDraw(canvName, anode) {
 
             analyser.getByteTimeDomainData(dataArray);
 
-            canvasCtx.fillStyle = 'rgb(200, 200, 200)';
-            canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+            canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
 
             canvasCtx.lineWidth = 2;
-            canvasCtx.strokeStyle = 'rgb(0, 0, 0)';
+            canvasCtx.strokeStyle = 'rgb(173, 255, 47)';
 
             canvasCtx.beginPath();
 
@@ -781,41 +725,8 @@ function makeDraw(canvName, anode) {
             var newspeak = (mean > 2.0);
             if (newspeak != speaking) {
                 speaking = newspeak;
-                is_speaking[canvName] = speaking ? true : false;
                 //console.log("newspeak "+newspeak+" mean "+mean);
-                if (!speaking){
-//                    cTimeout = setTimeout(function(){
-                        card.setAttribute(
-                            "mode",
-                            "silent"
-                        );
-                        badge.innerText = "Silent";
-//                    }, 500);
-                }else{
-                    if (canvName == "earscope") {
-                        if ( !is_speaking["farscope"] && !is_speaking["nearscope"] ){
-
-//                            if (cTimeout != null){
-//                                clearTimeout(cTimeout);
-//                            }
-                            card.setAttribute(
-                                "mode",
-                                "speaking"
-                            );
-                            badge.innerText = "Speaking";
-                        }
-
-                    } else {
-//                        if (cTimeout != null){
-//                            clearTimeout(cTimeout);
-//                        }
-                        card.setAttribute(
-                            "mode",
-                            "speaking"
-                        );
-                        badge.innerText = "Speaking";
-                    }
-                }
+                badge.innerText = speaking ? "Speaking" : "Silent";
             }
             canvasCtx.lineTo(canvas.width, canvas.height / 2);
             canvasCtx.stroke();
@@ -846,14 +757,7 @@ $.extend({
 });
 
 $(document).ready(_ => {
-
-    call_has_ended = localStorage.getItem('call_has_ended', true);
-
     videoEnabled = $.getUrlVar("video") == '1';
-    videoBtnIcon = $("#videoOff");
-    voicePanel = $("#voice-panel");
-
-    $("body").attr("has-video", videoEnabled);
 
     if (videoEnabled) {
         peerConnectionOfferAnswerCriteria = {};
@@ -862,11 +766,6 @@ $(document).ready(_ => {
         otherUserMediaElement.muted = true;
         otherUserMediaElement.className = "video";
         otherUserMediaElement.setAttribute("playsinline", "true");
-
-        videoBtnIcon.removeClass("fa-video-slash");
-        videoBtnIcon.addClass("fa-video");
-
-        voicePanel.hide();
         //otherUserMediaElement.setAttribute("autoplay", "true");
 
 
