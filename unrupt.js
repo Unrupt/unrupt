@@ -736,7 +736,7 @@ function makeDraw(canvName, anode) {
                             "silent"
                         );
                         badge.innerText = "Silent";
-                    }, 1000);
+                    }, 500);
                 }else{
                     if (cTimeout != null){
                         clearTimeout(cTimeout);
