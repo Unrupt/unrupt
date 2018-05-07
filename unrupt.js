@@ -736,20 +736,20 @@ function makeDraw(canvName, anode) {
                 is_speaking[canvName] = speaking ? true : false;
                 //console.log("newspeak "+newspeak+" mean "+mean);
                 if (!speaking){
-                    cTimeout = setTimeout(function(){
+//                    cTimeout = setTimeout(function(){
                         card.setAttribute(
                             "mode",
                             "silent"
                         );
                         badge.innerText = "Silent";
-                    }, 500);
+//                    }, 500);
                 }else{
                     if (canvName == "earscope") {
                         if ( !is_speaking["farscope"] && !is_speaking["nearscope"] ){
 
-                            if (cTimeout != null){
-                                clearTimeout(cTimeout);
-                            }
+//                            if (cTimeout != null){
+//                                clearTimeout(cTimeout);
+//                            }
                             card.setAttribute(
                                 "mode",
                                 "speaking"
@@ -758,9 +758,9 @@ function makeDraw(canvName, anode) {
                         }
 
                     } else {
-                        if (cTimeout != null){
-                            clearTimeout(cTimeout);
-                        }
+//                        if (cTimeout != null){
+//                            clearTimeout(cTimeout);
+//                        }
                         card.setAttribute(
                             "mode",
                             "speaking"
