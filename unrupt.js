@@ -730,17 +730,17 @@ function makeDraw(canvName, anode) {
                 speaking = newspeak;
                 //console.log("newspeak "+newspeak+" mean "+mean);
                 if (!speaking){
-//                    cTimeout = setTimeout(function(){
+                    cTimeout = setTimeout(function(){
                         card.setAttribute(
                             "mode",
                             "silent"
                         );
                         badge.innerText = "Silent";
-//                    }, 1000);
+                    }, 1000);
                 }else{
-//                    if (cTimeout != null){
-//                        clearTimeout(cTimeout);
-//                    }
+                    if (cTimeout != null){
+                        clearTimeout(cTimeout);
+                    }
                     card.setAttribute(
                         "mode",
                         "speaking"
