@@ -179,3 +179,8 @@ canvas#nearscope, canvas#farscope, canvas#earscope {
 .badge.badge-secondary{
     display: none;
 }
+
+.no-side-margin{
+    margin-left: auto;
+    margin-right: auto;
+}
