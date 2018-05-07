@@ -745,7 +745,7 @@ function makeDraw(canvName, anode) {
                     }, 500);
                 }else{
                     if (canvName == "earscope") {
-                        if ( !is_speaking["farscope"] && is_speaking["nearscope"] ){
+                        if ( !is_speaking["farscope"] && !is_speaking["nearscope"] ){
 
                             if (cTimeout != null){
                                 clearTimeout(cTimeout);
