@@ -168,12 +168,17 @@ canvas#nearscope, canvas#farscope, canvas#earscope {
     display: block;
 }
 
-.card .card-body{
+.card.card-voice .card-body{
     min-height: 110px;
+    padding-left: 0px;
+    padding-right: 0px;
+    border: 10px solid rgba(255,255,255,0);
 }
 
 .card[mode="speaking"] .card-body{
     border: 10px solid greenyellow;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .badge.badge-secondary{
