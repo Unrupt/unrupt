@@ -10,20 +10,6 @@
     }
 }
 
-.container-panel {
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-div#video-panel {
-    background: #333;
-}
-
-#unrupturl {
-    position: absolute;
-    left: -9999px;
-}
-
 
 @media (min-height: 699.99px) and (min-width: 299.99px) {
     .video {
@@ -59,6 +45,20 @@ div#video-panel {
         width: 960px;
         height: 1280px;
     }
+}
+
+.container-panel {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+div#video-panel {
+    background: #333;
+}
+
+#unrupturl {
+    position: absolute;
+    left: -9999px;
 }
 
 video#out {
@@ -188,4 +188,10 @@ canvas#nearscope, canvas#farscope, canvas#earscope {
 .no-side-margin{
     margin-left: auto;
     margin-right: auto;
+}
+
+@media (max-width: 500px) {
+    #chosenAction .fa.fa-2x {
+        font-size: 1.8em;
+    }
 }

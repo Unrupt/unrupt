@@ -50,6 +50,11 @@ var framecount = 0;
 var mode = "waiting";
 var offerSendLoop;
 var session;
+var is_speaking = {
+    "farscope": false,
+    "nearscope": false,
+    "earscope": false
+};
 
 // message stuff - used to create direct connection to peer over WEBRTC
 
@@ -728,6 +733,7 @@ function makeDraw(canvName, anode) {
             var newspeak = (mean > 2.0);
             if (newspeak != speaking) {
                 speaking = newspeak;
+                is_speaking[canvName] = speaking ? true : false;
                 //console.log("newspeak "+newspeak+" mean "+mean);
                 if (!speaking){
                     cTimeout = setTimeout(function(){
@@ -737,7 +743,8 @@ function makeDraw(canvName, anode) {
                         );
                         badge.innerText = "Silent";
                     }, 500);
-                }else{
+                }else if (canvName != "earscope" && !is_speaking["farscope"]){
+
                     if (cTimeout != null){
                         clearTimeout(cTimeout);
                     }
