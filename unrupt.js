@@ -50,6 +50,8 @@ var framecount = 0;
 var mode = "waiting";
 var offerSendLoop;
 var session;
+var call_has_ended = true;
+var call_history = {};
 var is_speaking = {
     "farscope": false,
     "nearscope": false,
@@ -173,6 +175,7 @@ function startCall(cid) {
 }
 
 function stopCall() {
+    localStorage.setItem("call_has_ended", true);
     window.location.href = window.location.href;
 }
 
@@ -236,15 +239,15 @@ function yourProc(node) {
             document.getElementById('out').muted = false;
             document.getElementById('out').play();
             $('#pauseOther').hide();
-            ubi.removeClass("fa-exchange");
-            ubi.addClass("fa-arrows-h");
+            ubi.removeClass("fa-exchange-alt");
+            ubi.addClass("fa-arrows-alt-h");
         } else {
             unruptEnabled = true;
             console.log('connecting the buffer');
             node.connect(buffer);
             document.getElementById('out').muted = true;
-            ubi.removeClass("fa-arrows-h");
-            ubi.addClass("fa-exchange");
+            ubi.removeClass("fa-arrows-alt-h");
+            ubi.addClass("fa-exchange-alt");
         }
     }
 
@@ -534,7 +537,7 @@ function setupAudio() {
     //var gumConstraints = {audio: true, video: videoEnabled ? {width: 640, height: 480} : false};
     var gumConstraints = {
         audio: true,
-        video: true
+        video: videoEnabled
     };
 
     var promise = new Promise(function (resolve, reject) {
@@ -585,11 +588,14 @@ function setupAudio() {
 
 function doPlay() {
     var ourMediaElement = document.getElementById('in');
-
-    console.log("onclick for in video");
-    ourMediaElement.play();
+    if ( ourMediaElement  ){
+        console.log("onclick for in video");
+        ourMediaElement.play();
+    }
     var theirMediaElement = document.getElementById('out');
-    theirMediaElement.play();
+    if ( theirMediaElement ){
+        theirMediaElement.play();
+    }
 }
 
 
@@ -597,8 +603,8 @@ function shared() {
     setupRTC();
     setupAudio().then(_ => {
         console.log("ready for offer");
+        localStorage.setItem("call_has_ended", false);
         doPlay();
-
     });
 }
 
@@ -606,10 +612,44 @@ function accepted() {
     setupRTC();
     setupAudio().then(_ => {
         console.log("ready for offer");
-        startCall(cid)
+        localStorage.setItem("call_has_ended", false);
+        startCall(cid);
         doPlay();
     });
 }
+
+/** Set the pair of ids from localStorage to call history. */
+function getConversationEntries(){
+    var data = localStorage['call_history'];
+    if (data == null)
+        call_history = {};
+    else
+        call_history = JSON.parse(data);
+}
+
+/**
+ * Get mid
+ * @returns Returns mid from the cEntries if found, else return null;
+ */
+function getMID() {
+    var cid = $.getUrlVar("unruptId");
+    if (!mid) {
+        getConversationEntries();
+    }
+    return call_history[cid];
+}
+
+/**
+ * Save the cid and mid as key-value pairs in localStorage.
+ * @param {string} id - mid or current user id
+ */
+function saveMID(id){
+    var cid = $.getUrlVar("unruptId");
+    call_history[cid] = id;
+    data = JSON.stringify(call_history)
+    localStorage.setItem('call_history', data);
+}
+
 // decide who we are initiator or recpient.
 // notice that the actual call goes in the reverse direction
 // the recipient of the invite actually creates the audiobearing peerconnection
@@ -667,7 +707,13 @@ function setRole() {
             initiator = (mid === cid);
             console.log(initiator ? 'We are the initiator' : 'We are not the initiator');
             var smodal = initiator ? "#share" : "#accept";
-            $(smodal).modal('show');
+            if( call_has_ended ){
+                $(smodal).modal('show');
+            }else if ( initiator ) {
+                shared();
+            }else{
+                accepted();
+            }
         };
         socket.onerror = (e) => {
             console.log("can't open websocket", e);
@@ -680,7 +726,9 @@ function setRole() {
 }
 
 $(document).on('click', "#chooseActionVideo", function () {
-    document.location = location.pathname + "?" + "unruptId=" + mid + "&video=1";
+    var $this = $(this);
+    var param = videoEnabled ? 0 : 1;
+    document.location = location.pathname + "?" + "unruptId=" + cid + "&video=" + param;
 });
 
 // thing that draws the scopes...
@@ -798,7 +846,14 @@ $.extend({
 });
 
 $(document).ready(_ => {
+
+    call_has_ended = localStorage.getItem('call_has_ended', true);
+
     videoEnabled = $.getUrlVar("video") == '1';
+    videoBtnIcon = $("#videoOff");
+    voicePanel = $("#voice-panel");
+
+    $("body").attr("has-video", videoEnabled);
 
     if (videoEnabled) {
         peerConnectionOfferAnswerCriteria = {};
@@ -807,6 +862,11 @@ $(document).ready(_ => {
         otherUserMediaElement.muted = true;
         otherUserMediaElement.className = "video";
         otherUserMediaElement.setAttribute("playsinline", "true");
+
+        videoBtnIcon.removeClass("fa-video-slash");
+        videoBtnIcon.addClass("fa-video");
+
+        voicePanel.hide();
         //otherUserMediaElement.setAttribute("autoplay", "true");
 
 

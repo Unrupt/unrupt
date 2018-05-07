@@ -1,3 +1,4 @@
+/*
 @media (min-height: 199.99px) and (min-width: 149.99px) {
     .video {
         width: 240px;
@@ -9,7 +10,9 @@
         font-size: 1.3em;
     }
 }
+*/
 
+/*
 
 @media (min-height: 699.99px) and (min-width: 299.99px) {
     .video {
@@ -40,11 +43,10 @@
     }
 }
 
-@media (min-height: 1299.99px) and (min-width: 999.99px) {
-    .video {
-        width: 960px;
-        height: 1280px;
-    }
+*/
+
+h1 {
+    font-size: 1.3em;
 }
 
 .container-panel {
@@ -83,6 +85,7 @@ span.badge.badge-person.badge-secondary {
 
 #out {
     width: 100%;
+    height: 118px;
 }
 
 .video #my-webcam {
@@ -97,6 +100,7 @@ span.badge.badge-person.badge-secondary {
 
 #in {
     width: 100%;
+    height: 118px;
 }
 
 .badge-speak{
@@ -144,6 +148,7 @@ canvas#nearscope, canvas#farscope, canvas#earscope {
 #chosenAction {
     clear: both;
     text-align: center;
+    margin-bottom: 20px;
 }
 
 
@@ -191,7 +196,39 @@ canvas#nearscope, canvas#farscope, canvas#earscope {
 }
 
 @media (max-width: 500px) {
-    #chosenAction .fa.fa-2x {
-        font-size: 1.8em;
+    #chosenAction .fa.fa-2x, #chosenAction .fas.fa-2x {
+        font-size: 1.8em; !important;
+    }
+}
+
+#chosenAction button.btn{
+    padding: 5px 10px; !important;
+/*    font-size: auto;*/
+}
+
+@media (max-width: 700px) {
+    .video {
+        width: 100%;
+        height: 60vh;
+    }
+
+    #out {
+        width: 100%;
+        height: 60vh;
+    }
+
+    body[has-video="false"] .video{
+        height: 30vh;
+    }
+
+    body[has-video="false"] #out{
+        height: 30vh;
+    }
+}
+
+@media (min-width: 701px) {
+    .video {
+        width: 720px;
+        height: 960px;
     }
 }

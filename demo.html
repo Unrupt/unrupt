@@ -9,16 +9,16 @@
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-        <link rel="stylesheet" href="unrupt.css?v=1.0.1" type="text/css" />
+<!--        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />-->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+        <link rel="stylesheet" href="unrupt.css?v=1.0.6" type="text/css" />
     </head>
 
     <body>
-        <h1 id="title" class="text-center">Unrupt Calls</h1>
         <h3 id="useragent"></h3>
         <div class="alert alert-info" id="message_holder"></div>
 
-        <h1 id="title" class="text-center"><a target="_blank" href="https://docs.google.com/document/d/1UAAJUiSZ99gehOnBDvY33yO4yRx-voZ71OsuZrqpiDY/edit">Family Systems</a> <a href="ios.html">Unrupt Demo 1.0</a></h1>
+        <h1 id="title" class="text-center"><a target="_blank" href="https://docs.google.com/document/d/1UAAJUiSZ99gehOnBDvY33yO4yRx-voZ71OsuZrqpiDY/edit">Family Systems</a> - <a href=".">Unrupt Demo</a></h1>
         <div id="video-panel" class="container-panel">
             <div class="video" id="otherUser" onclick="doPlay();">
                 <div id="pauseOther" class="playpause">
@@ -79,11 +79,21 @@
                 <span id="unruptbuffer_len" class="badge pull-right"></span>
             </div>
             <div id="chosenAction">
-                <button id="action" type="button" class="btn btn-primary btn-lg"><i class="fa fa-times-circle fa-2x" aria-hidden="true"></i></button>
-                <button id="pause" type="button" class="btn btn-primary btn-lg"><i id="pauseIcon" class="fa fa-play-circle fa-2x" aria-hidden="true"></i></button>
-                <button id="chooseActionVideo" type="button" class="btn btn-primary btn-lg"><i id="videoOff" class="fa fa-video-camera fa-2x" aria-hidden="true"></i></button>
-                <button id="mute" type="button" class="btn btn-primary btn-lg"><i id="muteIcon" class="fa fa-microphone fa-2x" aria-hidden="true"></i></button>
-                <button id="unruptToggle" type="button" class="btn btn-primary btn-lg"><i id="pwsIcon" class="fa fa-exchange fa-2x" aria-hidden="true"></i></button>
+                <button id="action" type="button" class="btn btn-primary">
+                    <i class="fa fa-times-circle fa-2x" aria-hidden="true"></i>
+                </button>
+                <button id="pause" type="button" class="btn btn-primary">
+                    <i id="pauseIcon" class="fa fa-play-circle fa-2x" aria-hidden="true"></i>
+                </button>
+                <button id="chooseActionVideo" type="button" class="btn btn-primary">
+                    <i id="videoOff" class="fa fa-video-slash fa-2x" aria-hidden="true"></i>
+                </button>
+                <button id="mute" type="button" class="btn btn-primary">
+                    <i id="muteIcon" class="fa fa-microphone fa-2x" aria-hidden="true"></i>
+                </button>
+                <button id="unruptToggle" type="button" class="btn btn-primary">
+                    <i id="pwsIcon" class="fas fa-exchange-alt fa-2x" aria-hidden="true"></i>
+                </button>
             </div>
         </div>
 
@@ -127,7 +137,7 @@
         <script src="https://pi.pe/iot/js/qrcode.js"></script>
         <script src="properties.js"></script>
         <script src="clipboard.min.js"></script>
-        <script src="unrupt.js?v=1.0.6"></script>
+        <script src="unrupt.js?v=1.0.12"></script>
 
     </body>
 
