@@ -1,28 +1,144 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <title>Unrupt calls</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <head>
+        <title>Unrupt calls</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-</head>
-<body>
-<h1 id="title" class="text-center">Unrupt Calls</h1>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous" />
+<!--        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />-->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+        <link rel="stylesheet" href="unrupt.css?v=1.0.6" type="text/css" />
+    </head>
 
+    <body>
+        <h3 id="useragent"></h3>
+        <div class="alert alert-info" id="message_holder"></div>
 
+        <h1 id="title" class="text-center"><a target="_blank" href="https://docs.google.com/document/d/1UAAJUiSZ99gehOnBDvY33yO4yRx-voZ71OsuZrqpiDY/edit">Family Systems</a> - <a href=".">Unrupt Demo</a></h1>
+        <div id="video-panel" class="container-panel">
+            <div class="video" id="otherUser" onclick="doPlay();">
+                <div id="pauseOther" class="playpause">
+                    <object data="pause.svg"></object>
+                </div>
+                <div class="video-holder" id="my-webcam">
+    <!--
+                    <span class="badge badge-person badge-secondary">
+                        You
+                    </span>
+                    <span id="nearscope-badge" class="badge badge-speak badge-secondary">Silent</span>
+                    <canvas id="nearscope">Scope</canvas>
+    -->
+                </div>
+                <div class="video-holder" id="other-webcam">
+    <!--
+                    <span class="badge badge-person badge-secondary">
+                        Other Person
+                    </span>
+                    <span id="farscope-badge" class="badge badge-speak badge-secondary">Silent</span>
+                    <canvas id="farscope">Scope</canvas>
+    -->
+                </div>
+            </div>
 
-<div class="card">
+        </div>
+        <div id="voice-panel" class="container-panel">
+            <div class="row">
+                <div class="col-4 card card-voice" id="card-voice-farscope">
+                    <div class="card-header buffer-label">Far <span id="farscope-badge" class="badge badge-secondary">Silent</span></div>
+                    <div class="card-body">
+                        <canvas id="farscope" >Scope</canvas>
+                    </div>
+                </div>
+                <div class="col-4 card card-voice" id="card-voice-earscope">
+                    <div class="card-header buffer-label">Play <span id="earscope-badge" class="badge badge-secondary">Silent</span>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="earscope" >Scope</canvas>
+                    </div>
+                </div>
+                <div class="col-4 card card-voice" id="card-voice-nearscope">
+                    <div class="card-header buffer-label">Near <span id="nearscope-badge" class="badge badge-secondary">Silent</span></div>
+                    <div class="card-body">
+                        <canvas id="nearscope" >Scope</canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <div class="card-body">
+        <div class="container">
+            <div class="progress">
+                <div id="unruptbuffer_spk" class="progress-bar progress-bar-striped bg-warning" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                <div id="unruptbuffer_sil" class="progress-bar " role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div>
+                <span id="mode" class="badge badge-primary pull-left">Direct</span>
+                <span id="unruptbuffer_len" class="badge pull-right"></span>
+            </div>
+            <div id="chosenAction">
+                <button id="action" type="button" class="btn btn-primary">
+                    <i class="fa fa-times-circle fa-2x" aria-hidden="true"></i>
+                </button>
+                <button id="pause" type="button" class="btn btn-primary">
+                    <i id="pauseIcon" class="fa fa-play-circle fa-2x" aria-hidden="true"></i>
+                </button>
+                <button id="chooseActionVideo" type="button" class="btn btn-primary">
+                    <i id="videoOff" class="fa fa-video-slash fa-2x" aria-hidden="true"></i>
+                </button>
+                <button id="mute" type="button" class="btn btn-primary">
+                    <i id="muteIcon" class="fa fa-microphone fa-2x" aria-hidden="true"></i>
+                </button>
+                <button id="unruptToggle" type="button" class="btn btn-primary">
+                    <i id="pwsIcon" class="fas fa-exchange-alt fa-2x" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
 
-            <a type="button" class="btn btn-primary btn-lg" href="demo.html">Demo</a>
+        <!--  Start Modals     -->
+        <div id="share" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Share this url to request a call</h5>
+                    </div>
+                    <div class="modal-body" id="shareQR">
 
-    </div>
-</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="shareDone" type="button" class="btn btn-secondary" data-dismiss="modal" onclick="shared();">Done</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="accept" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Accept a call</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Click 'accept' to start the call.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="callAccept" type="button" class="btn btn-secondary" data-dismiss="modal" onclick="accepted();">Accept</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  End Modals      -->
 
-</body>
+        <input type="hidden" id="unrupturl" />
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
+        <script src="https://pi.pe/iot/js/qrcode.js"></script>
+        <script src="properties.js"></script>
+        <script src="clipboard.min.js"></script>
+        <script src="unrupt.js?v=1.0.13"></script>
+
+    </body>
+
 </html>

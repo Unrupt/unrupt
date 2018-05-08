@@ -847,7 +847,7 @@ $.extend({
 
 $(document).ready(_ => {
 
-    call_has_ended = localStorage.getItem('call_has_ended', true);
+//    call_has_ended = localStorage.getItem('call_has_ended', true);
 
     videoEnabled = $.getUrlVar("video") == '1';
     videoBtnIcon = $("#videoOff");
