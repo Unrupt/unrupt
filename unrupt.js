@@ -763,30 +763,32 @@ function makeDraw(canvName, anode) {
 
             canvasCtx.beginPath();
 
-            if (canvName == "earscope") {
-                if ( is_speaking["farscope"] && is_speaking["nearscope"] && backlog_spk == 0 ){
-                    bufferLength = 1;
+            if (canvName == "earscope" && backlog_spk == 0 ){
+//                    bufferLength = 1;
+                canvasCtx.moveTo(canvas.width, canvas.height / 2);
+                canvasCtx.lineTo(canvas.width, canvas.height / 2);
+            }else{
+
+                var sliceWidth = canvas.width * 1.0 / bufferLength;
+                var x = 0;
+                var tot = 0.0;
+
+                for (var i = 0; i < bufferLength; i++) {
+
+
+                    var v = dataArray[i] / 128.0;
+                    tot += Math.abs(dataArray[i] - 128);
+                    var y = v * canvas.height / 2;
+
+                    if (i === 0) {
+                        canvasCtx.moveTo(x, y);
+                    } else {
+                        canvasCtx.lineTo(x, y);
+                    }
+
+                    x += sliceWidth;
                 }
-            }
 
-            var sliceWidth = canvas.width * 1.0 / bufferLength;
-            var x = 0;
-            var tot = 0.0;
-
-            for (var i = 0; i < bufferLength; i++) {
-
-
-                var v = dataArray[i] / 128.0;
-                tot += Math.abs(dataArray[i] - 128);
-                var y = v * canvas.height / 2;
-
-                if (i === 0) {
-                    canvasCtx.moveTo(x, y);
-                } else {
-                    canvasCtx.lineTo(x, y);
-                }
-
-                x += sliceWidth;
             }
             var mean = tot / bufferLength;
             var newspeak = (mean > 2.0);
@@ -802,20 +804,13 @@ function makeDraw(canvName, anode) {
                         badge.innerText = "Silent";
 //                    }, 500);
                 }else{
-                    if (canvName == "earscope") {
-                        if ( !is_speaking["farscope"] && !is_speaking["nearscope"] && backlog_spk != 0 ){
-
-//                            if (cTimeout != null){
-//                                clearTimeout(cTimeout);
-//                            }
-                            card.setAttribute(
-                                "mode",
-                                "speaking"
-                            );
-                            badge.innerText = "Speaking";
-                        }
-
-                    } else {
+                    if (canvName == "earscope" && backlog_spk != 0 ){
+                        card.setAttribute(
+                            "mode",
+                            "speaking"
+                        );
+                        badge.innerText = "Speaking";
+                    } else if (canvName != "earscope") {
 //                        if (cTimeout != null){
 //                            clearTimeout(cTimeout);
 //                        }
