@@ -31,9 +31,9 @@ var localStream;
 var remoteStream;
 var scopes = [];
 var procs = [];
-var backlog = 0;
-var backlog_sil = 0;
-var backlog_spk = 0;
+var backlog = 0; // Overall backlog
+var backlog_sil = 0; // Silent backlog for other/far user.
+var backlog_spk = 0;  // Speak backlog for other/far user. Display the yellow progress bar when not equal to zero.
 var tick;
 var iamspeaking = false;
 var mute = false;
@@ -309,6 +309,7 @@ function yourProc(node) {
                 }
                 avg = avg / inputBuffer.length;
                 var silent = (avg < properties.farSilenceThreshold);
+                is_speaking["farscope"] = !silent;
                 if (silent) {
                     silentcount++;
                     backlog_sil++;
@@ -418,8 +419,12 @@ function myProc(node) {
                 }
                 if (silentcount > properties.minFramesSilenceForPause) {
                     iamspeaking = false;
+                    is_speaking["nearscope"] = false;
+                }else{
+                    is_speaking["nearscope"] = true;
                 }
             } else {
+                is_speaking["nearscope"] = !silent;
                 if (!silent) {
                     iamspeaking = true;
                     silentcount = 0;
@@ -451,7 +456,7 @@ function addStream(stream, kind) {
             mediaElement.muted = true;
         };
     }
-    if (kind.indexOf("audio") != -1) {
+    // if (kind.indexOf("audio") != -1) {
         var peer = yourac.createMediaStreamSource(stream);
 
         console.log('Audio sample Rate is ' + yourac.sampleRate);
@@ -461,7 +466,7 @@ function addStream(stream, kind) {
         var scope2 = doScopeNode(yourac, buffproc, "earscope");
         scope2.connect(yourac.destination);
         //$("#chosenAction").show();
-    }
+    // }
 }
 
 // configure local peerconnection and handlers
@@ -758,6 +763,12 @@ function makeDraw(canvName, anode) {
 
             canvasCtx.beginPath();
 
+            if (canvName == "earscope") {
+                if ( is_speaking["farscope"] && is_speaking["nearscope"] && backlog_spk == 0 ){
+                    bufferLength = 1;
+                }
+            }
+
             var sliceWidth = canvas.width * 1.0 / bufferLength;
             var x = 0;
             var tot = 0.0;
@@ -781,7 +792,6 @@ function makeDraw(canvName, anode) {
             var newspeak = (mean > 2.0);
             if (newspeak != speaking) {
                 speaking = newspeak;
-                is_speaking[canvName] = speaking ? true : false;
                 //console.log("newspeak "+newspeak+" mean "+mean);
                 if (!speaking){
 //                    cTimeout = setTimeout(function(){
@@ -793,7 +803,7 @@ function makeDraw(canvName, anode) {
 //                    }, 500);
                 }else{
                     if (canvName == "earscope") {
-                        if ( !is_speaking["farscope"] && !is_speaking["nearscope"] ){
+                        if ( !is_speaking["farscope"] && !is_speaking["nearscope"] && backlog_spk != 0 ){
 
 //                            if (cTimeout != null){
 //                                clearTimeout(cTimeout);
