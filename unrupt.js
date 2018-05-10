@@ -442,7 +442,7 @@ function addStream(stream, kind) {
     if (!kind) {
         kind = "audio/video";
     }
-
+    console.log("=====> Kind is " + kind);
     console.log("got new stream" + stream + " kind =" + kind);
     if (kind.indexOf("video") != -1) {
         remoteStream = stream;
@@ -456,7 +456,7 @@ function addStream(stream, kind) {
             mediaElement.muted = true;
         };
     }
-    // if (kind.indexOf("audio") != -1) {
+     if (kind.indexOf("audio") != -1) {
         var peer = yourac.createMediaStreamSource(stream);
 
         console.log('Audio sample Rate is ' + yourac.sampleRate);
@@ -466,7 +466,7 @@ function addStream(stream, kind) {
         var scope2 = doScopeNode(yourac, buffproc, "earscope");
         scope2.connect(yourac.destination);
         //$("#chosenAction").show();
-    // }
+     }
 }
 
 // configure local peerconnection and handlers
