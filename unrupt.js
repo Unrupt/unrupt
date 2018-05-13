@@ -38,7 +38,8 @@ var tick;
 var iamspeaking = false;
 var mute = false;
 var paused = false;
-var videoEnabled = false;
+var videoEnabled = true;
+var myVideoELement, otherUserVideoElement;
 var peerConnectionOfferAnswerCriteria = {
     offerToReceiveAudio: true,
     offerToReceiveVideo: false
@@ -601,6 +602,7 @@ function doPlay() {
     if ( theirMediaElement ){
         theirMediaElement.play();
     }
+    turnOffVideo();
 }
 
 
@@ -730,10 +732,25 @@ function setRole() {
     }
 }
 
+function turnOffVideo(){
+    videoEnabled = !(localStream.getVideoTracks()[0].enabled);
+
+    if(videoEnabled){
+        videoBtnIcon.removeClass("fa-video-slash");
+        videoBtnIcon.addClass("fa-video");
+        voicePanel.hide();
+    }else{
+        videoBtnIcon.removeClass("fa-video");
+        videoBtnIcon.addClass("fa-video-slash");
+        voicePanel.show();
+    }
+    $("body").attr("has-video", videoEnabled);
+    localStream.getVideoTracks()[0].enabled = videoEnabled;
+}
+
+
 $(document).on('click', "#chooseActionVideo", function () {
-    var $this = $(this);
-    var param = videoEnabled ? 0 : 1;
-    document.location = location.pathname + "?" + "unruptId=" + cid + "&video=" + param;
+    turnOffVideo();
 });
 
 // thing that draws the scopes...
@@ -853,8 +870,6 @@ $.extend({
 $(document).ready(_ => {
 
 //    call_has_ended = localStorage.getItem('call_has_ended', true);
-
-    videoEnabled = $.getUrlVar("video") == '1';
     videoBtnIcon = $("#videoOff");
     voicePanel = $("#voice-panel");
 
