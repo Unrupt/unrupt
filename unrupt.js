@@ -44,6 +44,7 @@ var peerConnectionOfferAnswerCriteria = {
     offerToReceiveAudio: true,
     offerToReceiveVideo: false
 };
+var toggleMute;
 var unruptEnabled = true;
 var toggleUnrupt;
 var AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -236,9 +237,11 @@ function yourProc(node) {
         if (unruptEnabled) {
             unruptEnabled = false;
             console.log('disconnecting the buffer');
-            node.disconnect(buffer);
-            document.getElementById('out').muted = false;
-            document.getElementById('out').play();
+            if(!mute){
+                node.disconnect(buffer);
+                document.getElementById('out').muted = false;
+                document.getElementById('out').play();
+            }
             $('#pauseOther').hide();
             ubi.removeClass("fa-exchange-alt");
             ubi.addClass("fa-arrows-alt-h");
@@ -252,6 +255,16 @@ function yourProc(node) {
         }
     }
 
+    toggleMute = (m) => {
+        if (m) {
+            node.disconnect(buffer);
+            document.getElementById('out').muted = false;
+            document.getElementById('out').play();
+        } else {
+            node.connect(buffer);
+            document.getElementById('out').muted = true;
+        }
+    }
 
     ub.off('click').on('click', (e) => {
         e.stopImmediatePropagation();
@@ -373,16 +386,17 @@ function yourProc(node) {
 function setMute(m) {
     var mi = $("#muteIcon");
     mute = m;
+    var audioTracks = localStream.getAudioTracks();
     if (m) {
         mi.removeClass("fa-microphone");
         mi.addClass("fa-microphone-slash");
+        toggleMute(true);
+        audioTracks[0].enabled = false;
     } else {
         mi.removeClass("fa-microphone-slash");
         mi.addClass("fa-microphone");
-    }
-    var audioTracks = localStream.getAudioTracks();
-    if (audioTracks[0]) {
-        audioTracks[0].enabled = !m;
+//        toggleMute(false);
+        audioTracks[0].enabled = true;
     }
 }
 
@@ -391,6 +405,7 @@ function myProc(node) {
     var mb = $("#mute");
     mb.click(() => {
         setMute(!mute);
+//        $('#unruptToggle').click();
     });
     var buffer = myBuffer;
     console.log("made unrupt buffer of size ", buffer.bufferSize);
@@ -872,6 +887,15 @@ $(document).ready(_ => {
 //    call_has_ended = localStorage.getItem('call_has_ended', true);
     videoBtnIcon = $("#videoOff");
     voicePanel = $("#voice-panel");
+
+    $("#btnRemoteAudio").off('click').on('click', (e) => {
+        if (toggleMute != undefined){
+            console.log("Forced unrupt speakers on");
+            toggleMute(true);
+        }else{
+            console.log("No Unrupt toggleMute is set");
+        }
+    });
 
     $("body").attr("has-video", videoEnabled);
 
