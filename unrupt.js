@@ -30,7 +30,7 @@ var rcandyStash = [];
 var localStream;
 var remoteStream;
 var scopes = [];
-var buffSampleSum;
+var buffSampleSum = 0;
 var procs = [];
 var backlog = 0; // Overall backlog
 var backlog_sil = 0; // Silent backlog for other/far user.
