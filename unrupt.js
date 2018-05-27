@@ -927,12 +927,24 @@ $(document).ready(_ => {
 //    call_has_ended = localStorage.getItem('call_has_ended', true);
     videoBtnIcon = $("#videoOff");
     voicePanel = $("#voice-panel");
+    trackConsoleOut = undefined;
 
     $("#console-out").hide();
     $("#btnToggleConsoleOut").off('click').on('click', (e) => {
-       $("#console-out").toggle();
-        consoleOut();
+        $("#console-out").toggle();
+        if( $("#console-out").is(":visible") ){
+            trackConsoleOut = setInterval(function(){
+                consoleOut();
+            }, 3000);
+        }else if ( trackConsoleOut != undefined ){
+            clearInterval(trackConsoleOut);
+            trackConsoleOut = undefined;
+        }
     });
+
+    setInterval(function(){
+        consoleOut();
+    }, 3000);
 
     $("#btnRemoteAudio").off('click').on('click', (e) => {
         if (toggleMute != undefined){
