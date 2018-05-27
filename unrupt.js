@@ -45,6 +45,7 @@ var peerConnectionOfferAnswerCriteria = {
     offerToReceiveVideo: false
 };
 var toggleMute;
+var isNodeConnected = true;
 var unruptEnabled = true;
 var toggleUnrupt;
 var AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -58,6 +59,11 @@ var is_speaking = {
     "farscope": false,
     "nearscope": false,
     "earscope": false
+};
+var audio_nodes = {
+    "farscope": null,
+    "nearscope": null,
+    "earscope": null
 };
 
 // message stuff - used to create direct connection to peer over WEBRTC
@@ -124,6 +130,22 @@ function messageDeal(event) {
             }
             break;
     }
+}
+
+function consoleOut(){
+    if(localStream == undefined || remoteStream == undefined){
+        return false;
+    }
+    var localTracks = localStream.getAudioTracks();
+    var remoteTracks = remoteStream.getAudioTracks();
+    $("#console-out").html("Is remote video element muted? " + document.getElementById('out').muted
+        + "<br/>Is remote audio track enabled? " + remoteTracks[0].enabled
+        + "<br/>Is local video element muted? " + document.getElementById('in').muted
+        + "<br/>Is local audio track enabled? " + localTracks[0].enabled
+        + "<br/>Unrupt is set to " + unruptEnabled
+        + "<br/>Mute is set to " + mute
+        + "<br/>Is node connected " + isNodeConnected
+    );
 }
 
 function sendJ(m) {
@@ -237,11 +259,12 @@ function yourProc(node) {
         if (unruptEnabled) {
             unruptEnabled = false;
             console.log('disconnecting the buffer');
-            if(!mute){
+            if(isNodeConnected){
                 node.disconnect(buffer);
-                document.getElementById('out').muted = false;
-                document.getElementById('out').play();
+                isNodeConnected = false;
             }
+            document.getElementById('out').muted = false;
+            document.getElementById('out').play();
             $('#pauseOther').hide();
             ubi.removeClass("fa-exchange-alt");
             ubi.addClass("fa-arrows-alt-h");
@@ -249,19 +272,29 @@ function yourProc(node) {
             unruptEnabled = true;
             console.log('connecting the buffer');
             node.connect(buffer);
-            document.getElementById('out').muted = true;
+            isNodeConnected = true;
+            if (mute){
+                document.getElementById('out').muted = false;
+            }else{
+                document.getElementById('out').muted = true;
+            }
             ubi.removeClass("fa-arrows-alt-h");
             ubi.addClass("fa-exchange-alt");
         }
+        consoleOut();
     }
 
     toggleMute = (m) => {
         if (m) {
-            node.disconnect(buffer);
+            if(isNodeConnected){
+                node.disconnect(buffer);
+                isNodeConnected = false;
+            }
             document.getElementById('out').muted = false;
             document.getElementById('out').play();
         } else {
             node.connect(buffer);
+            isNodeConnected = true;
             document.getElementById('out').muted = true;
         }
     }
@@ -378,6 +411,7 @@ function yourProc(node) {
         }
     };
     node.connect(buffer);
+    isNodeConnected = true;
     procs.push(buffer)
     return buffer;
 }
@@ -390,15 +424,23 @@ function setMute(m) {
     if (m) {
         mi.removeClass("fa-microphone");
         mi.addClass("fa-microphone-slash");
-        toggleMute(true);
         audioTracks[0].enabled = false;
+//        if(unruptEnabled){
+//            document.getElementById('out').muted = false;
+//            toggleMute(true);
+//        }
     } else {
         mi.removeClass("fa-microphone-slash");
         mi.addClass("fa-microphone");
 //        toggleMute(false);
         audioTracks[0].enabled = true;
+//        if(unruptEnabled){
+//            document.getElementById('out').muted = true;
+//        }
     }
+    consoleOut();
 }
+
 
 // processing audio from the local microphone
 function myProc(node) {
@@ -479,9 +521,10 @@ function addStream(stream, kind) {
 
         var scope = doScopeNode(yourac, peer, "farscope");
         var buffproc = yourProc(scope);
+        audio_nodes.earscope = buffproc;
         var scope2 = doScopeNode(yourac, buffproc, "earscope");
         scope2.connect(yourac.destination);
-        //$("#chosenAction").show();
+        isNodeConnected = true;
      }
 }
 
@@ -618,6 +661,7 @@ function doPlay() {
         theirMediaElement.play();
     }
     turnOffVideo();
+    consoleOut();
 }
 
 
@@ -862,9 +906,7 @@ function makeDraw(canvName, anode) {
 }
 
 
-
 // some housekeeping
-
 $.extend({
     getUrlVars: function () {
         var vars = [],
@@ -899,43 +941,35 @@ $(document).ready(_ => {
 
     $("body").attr("has-video", videoEnabled);
 
-    if (videoEnabled) {
-        peerConnectionOfferAnswerCriteria = {};
-        var otherUserMediaElement = document.createElement('video');
-        otherUserMediaElement.id = 'out';
-        otherUserMediaElement.muted = true;
-        otherUserMediaElement.className = "video";
-        otherUserMediaElement.setAttribute("playsinline", "true");
+    peerConnectionOfferAnswerCriteria = {};
+    var otherUserMediaElement = document.createElement('video');
+    otherUserMediaElement.id = 'out';
+    otherUserMediaElement.muted = true;
+    otherUserMediaElement.className = "video";
+    otherUserMediaElement.setAttribute("playsinline", "true");
 
-        videoBtnIcon.removeClass("fa-video-slash");
-        videoBtnIcon.addClass("fa-video");
+    videoBtnIcon.removeClass("fa-video-slash");
+    videoBtnIcon.addClass("fa-video");
 
-        voicePanel.hide();
-        //otherUserMediaElement.setAttribute("autoplay", "true");
-
-
-        document.getElementById('other-webcam').appendChild(otherUserMediaElement);
-
-        var thisUserMediaElement = document.createElement('video');
-        thisUserMediaElement.id = 'in';
-        thisUserMediaElement.muted = true;
-        thisUserMediaElement.setAttribute("playsinline", "true");
-        //thisUserMediaElement.setAttribute("autoplay", "true");
+    voicePanel.hide();
+    //otherUserMediaElement.setAttribute("autoplay", "true");
 
 
-        document.getElementById('my-webcam').appendChild(thisUserMediaElement);
+    document.getElementById('other-webcam').appendChild(otherUserMediaElement);
+
+    var thisUserMediaElement = document.createElement('video');
+    thisUserMediaElement.id = 'in';
+    thisUserMediaElement.muted = true;
+    thisUserMediaElement.setAttribute("playsinline", "true");
+    //thisUserMediaElement.setAttribute("autoplay", "true");
 
 
-    } else {
-        var mediaElement = document.createElement('audio');
-        mediaElement.id = 'out';
-        mediaElement.muted = true;
-        document.body.appendChild(mediaElement);
-    }
+    document.getElementById('my-webcam').appendChild(thisUserMediaElement);
+
     //$("#chosenAction").hide();
     setRole();
 
-    //$('#version').text(properties.versionname);
+    $('#version').text(properties.versionname);
     tick = window.setInterval(t => {
         var scale = properties.maxStashFrames / 100.0;
         var timeline_length = Math.floor(properties.maxStashFrames * properties.procFramesize / 44100);
