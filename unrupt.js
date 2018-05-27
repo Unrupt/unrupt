@@ -30,6 +30,7 @@ var rcandyStash = [];
 var localStream;
 var remoteStream;
 var scopes = [];
+var buffSampleSum;
 var procs = [];
 var backlog = 0; // Overall backlog
 var backlog_sil = 0; // Silent backlog for other/far user.
@@ -145,6 +146,7 @@ function consoleOut(){
         + "<br/>Unrupt is set to " + unruptEnabled
         + "<br/>Mute is set to " + mute
         + "<br/>Is node connected " + isNodeConnected
+        + "<br/>Current remote buffer sample size " + buffSampleSum
     );
 }
 
@@ -354,6 +356,7 @@ function yourProc(node) {
                     buff[sample] = inputData[sample]; // copy
                     avg += Math.abs(buff[sample]); // sample
                 }
+                buffSampleSum = avg;
                 avg = avg / inputBuffer.length;
                 var silent = (avg < properties.farSilenceThreshold);
                 is_speaking["farscope"] = !silent;
@@ -924,6 +927,12 @@ $(document).ready(_ => {
 //    call_has_ended = localStorage.getItem('call_has_ended', true);
     videoBtnIcon = $("#videoOff");
     voicePanel = $("#voice-panel");
+
+    $("#console-out").hide();
+    $("#btnToggleConsoleOut").off('click').on('click', (e) => {
+       $("#console-out").toggle();
+        consoleOut();
+    });
 
     $("#btnRemoteAudio").off('click').on('click', (e) => {
         if (toggleMute != undefined){
