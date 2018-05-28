@@ -435,9 +435,6 @@ function setMute(m) {
         mi.removeClass("fa-microphone-slash");
         mi.addClass("fa-microphone");
         audioTracks[0].enabled = true;
-        if(unruptEnabled && buffSampleSum == 0){
-            document.getElementById('out').muted = false;
-        }
     }
     consoleOut();
 }
@@ -946,8 +943,12 @@ $(document).ready(_ => {
     });
 
     setInterval(function(){
-        consoleOut();
-    }, 3000);
+        if(unruptEnabled && buffSampleSum == 0){
+            document.getElementById('out').muted = false;
+        }else if (unruptEnabled) {
+            document.getElementById('out').muted = true;
+        }
+    }, 5000);
 
     $("#btnRemoteAudio").off('click').on('click', (e) => {
         if (toggleMute != undefined){
