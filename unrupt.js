@@ -256,6 +256,7 @@ function disconnectBufferSource() {
 // processing incoming audio
 function yourProc(node) {
     var buffer = yourScriptNode;
+    yourRemoteNode = node;
     console.log("made unrupt buffer of size ", buffer.bufferSize, buffer);
     var silentcount = 0;
     var audiostash = [];
