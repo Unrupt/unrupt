@@ -525,6 +525,7 @@ function addStream(stream, kind) {
     }
      if (kind.indexOf("audio") != -1) {
         var peer = yourac.createMediaStreamSource(stream);
+         yourPeer = peer;
 
         console.log('Audio sample Rate is ' + yourac.sampleRate);
         startBufferSource();
