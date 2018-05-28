@@ -507,27 +507,37 @@ function myProc(node) {
 }
 
 // called when webRTC presents us with a fresh remote audio stream
-function addStream(stream) {
-    console.log("got new stream" + stream);
-    remoteStream = stream;
-    var mediaElement = document.getElementById('out');
-    mediaElement.srcObject = stream;
-    console.log('Video stream');
+function addStream(stream, kind) {
+    if (!kind) {
+        kind = "audio/video";
+    }
+    isCallActive = true;
+    console.log("=====> Kind is " + kind);
+    console.log("got new stream" + stream + " kind =" + kind);
+    if (kind.indexOf("video") != -1) {
+        remoteStream = stream;
+        var mediaElement = document.getElementById('out');
+        mediaElement.srcObject = stream;
+        //mediaElement.muted = true;
+        console.log('Video stream');
 
-    mediaElement.onloadedmetadata = function (e) {
-        mediaElement.muted = true;
-    };
+        mediaElement.onloadedmetadata = function (e) {
+            //mediaElement.play();
+            mediaElement.muted = true;
+        };
+    }
+     if (kind.indexOf("audio") != -1) {
+        var peer = yourac.createMediaStreamSource(stream);
 
-    var peer = yourac.createMediaStreamSource(stream);
+        console.log('Audio sample Rate is ' + yourac.sampleRate);
 
-    console.log('Audio sample Rate is ' + yourac.sampleRate);
-
-    var scope = doScopeNode(yourac, peer, "farscope");
-    var buffproc = yourProc(scope);
-    audio_nodes.earscope = buffproc;
-    var scope2 = doScopeNode(yourac, buffproc, "earscope");
-    scope2.connect(yourac.destination);
-    isNodeConnected = true;
+        var scope = doScopeNode(yourac, peer, "farscope");
+        var buffproc = yourProc(scope);
+        audio_nodes.earscope = buffproc;
+        var scope2 = doScopeNode(yourac, buffproc, "earscope");
+        scope2.connect(yourac.destination);
+        isNodeConnected = true;
+     }
 }
 
 // configure local peerconnection and handlers
@@ -558,7 +568,7 @@ function setupRTC() {
         pc.ontrack = (event) => {
             var stream = event.streams[0];
             console.log("got remote track ", event.track.kind);
-            addStream(stream);
+            addStream(stream, event.track.kind);
         };
     } else {
         // if not we use add stream instead
