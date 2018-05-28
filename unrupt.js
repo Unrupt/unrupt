@@ -31,6 +31,7 @@ var localStream;
 var remoteStream;
 var scopes = [];
 var buffSampleSum = 0;
+var buffSampleAvg = 1;
 var procs = [];
 var backlog = 0; // Overall backlog
 var backlog_sil = 0; // Silent backlog for other/far user.
@@ -140,13 +141,14 @@ function consoleOut(){
     var localTracks = localStream.getAudioTracks();
     var remoteTracks = remoteStream.getAudioTracks();
     $("#console-out").html("Is remote video element muted? " + document.getElementById('out').muted
-        + "<br/>Is remote audio track enabled? " + remoteTracks[0].enabled
-        + "<br/>Is local video element muted? " + document.getElementById('in').muted
-        + "<br/>Is local audio track enabled? " + localTracks[0].enabled
-        + "<br/>Unrupt is set to " + unruptEnabled
-        + "<br/>Mute is set to " + mute
-        + "<br/>Is node connected " + isNodeConnected
-        + "<br/>Current remote buffer sample size " + buffSampleSum
+        + "<br/>- Is remote audio track enabled? " + remoteTracks[0].enabled
+        + "<br/>- Is local video element muted? " + document.getElementById('in').muted
+        + "<br/>- Is local audio track enabled? " + localTracks[0].enabled
+        + "<br/>- Unrupt is set to " + unruptEnabled
+        + "<br/>- Mute is set to " + mute
+        + "<br/>- Is node connected " + isNodeConnected
+        + "<br/>- Current remote buffer sample size " + buffSampleSum
+        + "<br/>- Current remote buffer sample average " + buffSampleAvg
     );
 }
 
@@ -358,6 +360,7 @@ function yourProc(node) {
                 }
                 buffSampleSum = avg;
                 avg = avg / inputBuffer.length;
+                buffSampleAvg = avg;
                 var silent = (avg < properties.farSilenceThreshold);
                 is_speaking["farscope"] = !silent;
                 if (silent) {
