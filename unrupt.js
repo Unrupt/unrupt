@@ -956,6 +956,8 @@ $(document).ready(_ => {
         }else if (unruptEnabled) {
             document.getElementById('out').muted = true;
             $("#unruptToggle").removeAttr("disabled");
+        }else{
+            $("#unruptToggle").removeAttr("disabled");
         }
     }, 5000);
 
