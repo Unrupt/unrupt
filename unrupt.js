@@ -24,6 +24,7 @@ var myac;
 var yourac;
 var yourBuffer;
 var myBuffer;
+var resumeBuffer;
 var initiator;
 var lcandyStash = [];
 var rcandyStash = [];
@@ -42,6 +43,7 @@ var localBuffSample = {
     "avg": 1,
     "sum": 0
 };
+var isCallActive = false;
 var procs = [];
 var backlog = 0; // Overall backlog
 var backlog_sil = 0; // Silent backlog for other/far user.
@@ -300,6 +302,16 @@ function yourProc(node) {
         consoleOut();
     }
 
+    resumeBuffer = () => {
+        console.log("Connecting AudioContext to buffer");
+        node.connect(buffer);
+        isNodeConnected = true;
+        document.getElementById('out').muted = true;
+        yourac.resume().then(() => {
+            console.log('Playback resumed successfully');
+        });
+    };
+
     toggleMute = (m) => {
         if (m) {
             if(isNodeConnected){
@@ -309,11 +321,9 @@ function yourProc(node) {
             document.getElementById('out').muted = false;
             document.getElementById('out').play();
         } else {
-            node.connect(buffer);
-            isNodeConnected = true;
-            document.getElementById('out').muted = true;
+            resumeBuffer();
         }
-    }
+    };
 
     ub.off('click').on('click', (e) => {
         e.stopImmediatePropagation();
@@ -349,6 +359,8 @@ function yourProc(node) {
         if (!unruptEnabled) {
             console.log('unrupt isnt enabled so clearing the backlog numbers');
             backlog_sil = backlog_spk = 0;
+            remoteBuffSample.avg = -1;
+            remoteBuffSample.sum = -1;
             return;
         }
 
@@ -559,6 +571,7 @@ function setupRTC() {
     pc.oniceconnectionstatechange = (e) => {
         console.log("ice state is changed", pc.iceConnectionState);
         if (pc.iceConnectionState === "failed") {
+            isCallActive = false;
             stopCall();
         }
     };
@@ -711,6 +724,10 @@ function getConversationEntries(){
  */
 function getMID() {
     var cid = $.getUrlVar("unruptId");
+    if ( cid != undefined ){
+        cid = cid.replace("#", "");
+    }
+
     if (!mid) {
         getConversationEntries();
     }
@@ -723,6 +740,9 @@ function getMID() {
  */
 function saveMID(id){
     var cid = $.getUrlVar("unruptId");
+    if ( cid != undefined ){
+        cid = cid.replace("#", "");
+    }
     call_history[cid] = id;
     data = JSON.stringify(call_history)
     localStorage.setItem('call_history', data);
@@ -736,6 +756,9 @@ function saveMID(id){
 
 function setRole() {
     cid = $.getUrlVar("unruptId");
+    if ( cid != undefined ){
+        cid = cid.replace("#", "");
+    }
     mid = localStorage['unruptId'];
     console.log('URL unrupt ID:', cid);
     console.log('localStorage unrupt ID:', mid);
@@ -948,10 +971,14 @@ $(document).ready(_ => {
     $("#btnToggleConsoleOut").off('click').on('click', (e) => {
         $("#console-out").toggle();
         if( $("#console-out").is(":visible") ){
-            consoleOut();
-            trackConsoleOut = setInterval(function(){
+            if (isCallActive){
                 consoleOut();
-            }, 5000);
+            }
+            trackConsoleOut = setInterval(function(){
+                if (isCallActive){
+                    consoleOut();
+                }
+            }, 1000);
         }else if ( trackConsoleOut != undefined ){
             clearInterval(trackConsoleOut);
             trackConsoleOut = undefined;
@@ -961,24 +988,26 @@ $(document).ready(_ => {
     // Play directly from the remote stream element (by unmuting the element)
     // if the remote audio buffer is lost.
     setInterval(function(){
-        if(unruptEnabled && remoteBuffSample.sum == 0){
-            document.getElementById('out').muted = false;
-            $("#unruptToggle").attr("disabled", "disabled");
-        }else if (unruptEnabled) {
-            document.getElementById('out').muted = true;
-            $("#unruptToggle").removeAttr("disabled");
-        }else{
-            $("#unruptToggle").removeAttr("disabled");
+        if(isCallActive){
+            if(unruptEnabled && remoteBuffSample.sum == 0){
+                resumeBuffer();
+                document.getElementById('out').muted = false;
+                $("#unruptToggle").attr("disabled", "disabled");
+            }else if (unruptEnabled) {
+                document.getElementById('out').muted = true;
+                $("#unruptToggle").removeAttr("disabled");
+            }else{
+                $("#unruptToggle").removeAttr("disabled");
+            }
         }
-    }, 5000);
+    }, 1000);
 
     // Manual unmute on the remote stream element
     $("#btnRemoteAudio").off('click').on('click', (e) => {
-        if (toggleMute != undefined){
-            console.log("Forced unrupt speakers on");
-            toggleMute(true);
+        if (resumeBuffer != undefined){
+            resumeBuffer();
         }else{
-            console.log("No Unrupt toggleMute is set");
+            console.log("No remote stream is not connected");
         }
     });
 
@@ -990,6 +1019,7 @@ $(document).ready(_ => {
     otherUserMediaElement.muted = true;
     otherUserMediaElement.className = "video";
     otherUserMediaElement.setAttribute("playsinline", "true");
+    otherUserMediaElement.setAttribute("autoplay", "true");
 
     videoBtnIcon.removeClass("fa-video-slash");
     videoBtnIcon.addClass("fa-video");
