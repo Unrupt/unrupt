@@ -431,13 +431,13 @@ function setMute(m) {
         mi.removeClass("fa-microphone");
         mi.addClass("fa-microphone-slash");
         audioTracks[0].enabled = false;
-        if(unruptEnabled){
-            document.getElementById('out').muted = false;
-        }
     } else {
         mi.removeClass("fa-microphone-slash");
         mi.addClass("fa-microphone");
         audioTracks[0].enabled = true;
+        if(unruptEnabled && buffSampleSum == 0){
+            document.getElementById('out').muted = false;
+        }
     }
     consoleOut();
 }
