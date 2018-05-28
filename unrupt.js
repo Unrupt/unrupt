@@ -34,8 +34,14 @@ var scopes = {
     "nearscope": null,
     "earscope": null
 };
-var buffSampleSum = 0;
-var buffSampleAvg = 1;
+var remoteBuffSample = {
+    "avg": 1,
+    "sum": 0
+};
+var localBuffSample = {
+    "avg": 1,
+    "sum": 0
+};
 var procs = [];
 var backlog = 0; // Overall backlog
 var backlog_sil = 0; // Silent backlog for other/far user.
@@ -151,8 +157,10 @@ function consoleOut(){
         + "<br/>- Unrupt is set to " + unruptEnabled
         + "<br/>- Mute is set to " + mute
         + "<br/>- Is node connected " + isNodeConnected
-        + "<br/>- Current remote buffer sample size " + buffSampleSum
-        + "<br/>- Current remote buffer sample average " + buffSampleAvg
+        + "<br/>- Current remote buffer sample size " + remoteBuffSample.sum
+        + "<br/>- Current remote buffer sample average " + remoteBuffSample.avg
+        + "<br/>- Current local buffer sample size " + localBuffSample.sum
+        + "<br/>- Current local buffer sample average " + localBuffSample.avg
     );
 }
 
@@ -362,9 +370,9 @@ function yourProc(node) {
                     buff[sample] = inputData[sample]; // copy
                     avg += Math.abs(buff[sample]); // sample
                 }
-                buffSampleSum = avg;
+                remoteBuffSample.sum = avg;
                 avg = avg / inputBuffer.length;
-                buffSampleAvg = avg;
+                remoteBuffSample.avg = avg;
                 var silent = (avg < properties.farSilenceThreshold);
                 is_speaking["farscope"] = !silent;
                 if (silent) {
@@ -470,7 +478,9 @@ function myProc(node) {
                 outputData[sample] = inputData[sample];
                 avg += Math.abs(outputData[sample]); // sample
             }
+            localBuffSample.sum = avg;
             avg = avg / inputBuffer.length;
+            localBuffSample.avg = avg;
             var silent = (avg < properties.micSilenceThreshold);
             if (iamspeaking) {
                 if (silent) {
@@ -497,36 +507,27 @@ function myProc(node) {
 }
 
 // called when webRTC presents us with a fresh remote audio stream
-function addStream(stream, kind) {
-    if (!kind) {
-        kind = "audio/video";
-    }
-    console.log("=====> Kind is " + kind);
-    console.log("got new stream" + stream + " kind =" + kind);
-    if (kind.indexOf("video") != -1) {
-        remoteStream = stream;
-        var mediaElement = document.getElementById('out');
-        mediaElement.srcObject = stream;
-        //mediaElement.muted = true;
-        console.log('Video stream');
+function addStream(stream) {
+    console.log("got new stream" + stream);
+    remoteStream = stream;
+    var mediaElement = document.getElementById('out');
+    mediaElement.srcObject = stream;
+    console.log('Video stream');
 
-        mediaElement.onloadedmetadata = function (e) {
-            //mediaElement.play();
-            mediaElement.muted = true;
-        };
-    }
-     if (kind.indexOf("audio") != -1) {
-        var peer = yourac.createMediaStreamSource(stream);
+    mediaElement.onloadedmetadata = function (e) {
+        mediaElement.muted = true;
+    };
 
-        console.log('Audio sample Rate is ' + yourac.sampleRate);
+    var peer = yourac.createMediaStreamSource(stream);
 
-        var scope = doScopeNode(yourac, peer, "farscope");
-        var buffproc = yourProc(scope);
-        audio_nodes.earscope = buffproc;
-        var scope2 = doScopeNode(yourac, buffproc, "earscope");
-        scope2.connect(yourac.destination);
-        isNodeConnected = true;
-     }
+    console.log('Audio sample Rate is ' + yourac.sampleRate);
+
+    var scope = doScopeNode(yourac, peer, "farscope");
+    var buffproc = yourProc(scope);
+    audio_nodes.earscope = buffproc;
+    var scope2 = doScopeNode(yourac, buffproc, "earscope");
+    scope2.connect(yourac.destination);
+    isNodeConnected = true;
 }
 
 // configure local peerconnection and handlers
@@ -557,7 +558,7 @@ function setupRTC() {
         pc.ontrack = (event) => {
             var stream = event.streams[0];
             console.log("got remote track ", event.track.kind);
-            addStream(stream, event.track.kind);
+            addStream(stream);
         };
     } else {
         // if not we use add stream instead
@@ -950,7 +951,7 @@ $(document).ready(_ => {
     // Play directly from the remote stream element (by unmuting the element)
     // if the remote audio buffer is lost.
     setInterval(function(){
-        if(unruptEnabled && buffSampleSum == 0){
+        if(unruptEnabled && remoteBuffSample.sum == 0){
             document.getElementById('out').muted = false;
             $("#unruptToggle").attr("disabled", "disabled");
         }else if (unruptEnabled) {
