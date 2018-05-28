@@ -22,8 +22,7 @@ var fid;
 var cid;
 var myac;
 var yourac;
-var yourScriptNode;
-var yourBufferSource;
+var yourBuffer;
 var myBuffer;
 var initiator;
 var lcandyStash = [];
@@ -248,19 +247,9 @@ function doScopeNode(ac, node, scopename) {
     return analyser;
 }
 
-function startBufferSource() {
-    yourBufferSource.connect(yourScriptNode);
-    yourBufferSource.start();
-}
-
-function disconnectBufferSource() {
-    yourBufferSource.disconnect(yourScriptNode);
-}
-
 // processing incoming audio
 function yourProc(node) {
-    var buffer = yourScriptNode;
-    yourRemoteNode = node;
+    var buffer = yourBuffer;
     console.log("made unrupt buffer of size ", buffer.bufferSize, buffer);
     var silentcount = 0;
     var audiostash = [];
@@ -460,7 +449,6 @@ function myProc(node) {
     var mb = $("#mute");
     mb.click(() => {
         setMute(!mute);
-//        $('#unruptToggle').click();
     });
     var buffer = myBuffer;
     console.log("made unrupt buffer of size ", buffer.bufferSize);
@@ -529,10 +517,9 @@ function addStream(stream, kind) {
     }
      if (kind.indexOf("audio") != -1) {
         var peer = yourac.createMediaStreamSource(stream);
-         yourPeer = peer;
 
         console.log('Audio sample Rate is ' + yourac.sampleRate);
-        startBufferSource();
+
         var scope = doScopeNode(yourac, peer, "farscope");
         var buffproc = yourProc(scope);
         audio_nodes.earscope = buffproc;
@@ -603,8 +590,7 @@ function setupAudio() {
     myac = new AudioContext();
     yourac = new AudioContext();
 
-    yourBufferSource = yourac.createBufferSource();
-    yourScriptNode = yourac.createScriptProcessor(properties.procFramesize, 1, 1);
+    yourBuffer = yourac.createScriptProcessor(properties.procFramesize, 1, 1);
     myBuffer = myac.createScriptProcessor(properties.procFramesize, 1, 1);
     let supportedConstraints = navigator.mediaDevices.getSupportedConstraints();
     console.log("Supported constraints");
@@ -946,27 +932,34 @@ $(document).ready(_ => {
     voicePanel = $("#voice-panel");
     trackConsoleOut = undefined;
 
+    // Output the values that affect the PWS feature and the mute state.
     $("#console-out").hide();
     $("#btnToggleConsoleOut").off('click').on('click', (e) => {
         $("#console-out").toggle();
         if( $("#console-out").is(":visible") ){
+            consoleOut();
             trackConsoleOut = setInterval(function(){
                 consoleOut();
-            }, 3000);
+            }, 5000);
         }else if ( trackConsoleOut != undefined ){
             clearInterval(trackConsoleOut);
             trackConsoleOut = undefined;
         }
     });
 
+    // Play directly from the remote stream element (by unmuting the element)
+    // if the remote audio buffer is lost.
     setInterval(function(){
         if(unruptEnabled && buffSampleSum == 0){
             document.getElementById('out').muted = false;
+            $("#unruptToggle").attr("disabled", "disabled");
         }else if (unruptEnabled) {
             document.getElementById('out').muted = true;
+            $("#unruptToggle").removeAttr("disabled");
         }
     }, 5000);
 
+    // Manual unmute on the remote stream element
     $("#btnRemoteAudio").off('click').on('click', (e) => {
         if (toggleMute != undefined){
             console.log("Forced unrupt speakers on");
