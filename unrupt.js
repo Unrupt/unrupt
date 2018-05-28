@@ -30,7 +30,11 @@ var lcandyStash = [];
 var rcandyStash = [];
 var localStream;
 var remoteStream;
-var scopes = [];
+var scopes = {
+    "farscope": null,
+    "nearscope": null,
+    "earscope": null
+};
 var buffSampleSum = 0;
 var buffSampleAvg = 1;
 var procs = [];
@@ -240,7 +244,7 @@ function doScopeNode(ac, node, scopename) {
     analyser.fftSize = properties.scopeFftSize;
     node.connect(analyser);
     makeDraw(scopename, analyser);
-    scopes.push(analyser);
+    scopes[scopename] = analyser;
     return analyser;
 }
 
