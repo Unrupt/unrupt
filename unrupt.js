@@ -22,7 +22,8 @@ var fid;
 var cid;
 var myac;
 var yourac;
-var yourBuffer;
+var yourScriptNode;
+var yourBufferSource;
 var myBuffer;
 var initiator;
 var lcandyStash = [];
@@ -243,9 +244,18 @@ function doScopeNode(ac, node, scopename) {
     return analyser;
 }
 
+function startBufferSource() {
+    yourBufferSource.connect(yourScriptNode);
+    yourBufferSource.start();
+}
+
+function disconnectBufferSource() {
+    yourBufferSource.disconnect(yourScriptNode);
+}
+
 // processing incoming audio
 function yourProc(node) {
-    var buffer = yourBuffer;
+    var buffer = yourScriptNode;
     console.log("made unrupt buffer of size ", buffer.bufferSize, buffer);
     var silentcount = 0;
     var audiostash = [];
@@ -516,7 +526,7 @@ function addStream(stream, kind) {
         var peer = yourac.createMediaStreamSource(stream);
 
         console.log('Audio sample Rate is ' + yourac.sampleRate);
-
+        startBufferSource();
         var scope = doScopeNode(yourac, peer, "farscope");
         var buffproc = yourProc(scope);
         audio_nodes.earscope = buffproc;
@@ -587,7 +597,8 @@ function setupAudio() {
     myac = new AudioContext();
     yourac = new AudioContext();
 
-    yourBuffer = yourac.createScriptProcessor(properties.procFramesize, 1, 1);
+    yourBufferSource = yourac.createBufferSource();
+    yourScriptNode = yourac.createScriptProcessor(properties.procFramesize, 1, 1);
     myBuffer = myac.createScriptProcessor(properties.procFramesize, 1, 1);
     let supportedConstraints = navigator.mediaDevices.getSupportedConstraints();
     console.log("Supported constraints");
