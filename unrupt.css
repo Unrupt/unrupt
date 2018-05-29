@@ -244,3 +244,30 @@ canvas#nearscope, canvas#farscope, canvas#earscope {
         height: 40vh;
     }
 }
+
+.btn-default {
+    border: none;
+    outline: none;
+    background: none;
+    color: black;
+}
+
+.dropdown-inline{
+    display: inline-block;
+}
+
+.dropdown.show, .dropdown:hover,
+.dropdown.show, .dropdown:hover > .btn-secondary{
+    border: none;
+    outline: none;
+    background: none;
+    color: black;
+}
+
+.btn-secondary:not([disabled]):not(.disabled).active, .btn-secondary:not([disabled]):not(.disabled):active, .show>.btn-secondary.dropdown-toggle {
+    border: none;
+    outline: none;
+    background: none;
+    color: black;
+    box-shadow: none;
+}
