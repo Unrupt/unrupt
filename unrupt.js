@@ -44,6 +44,7 @@ var peerConnectionOfferAnswerCriteria = {
     offerToReceiveAudio: true,
     offerToReceiveVideo: false
 };
+var toggleMute;
 var unruptEnabled = true;
 var toggleUnrupt;
 var AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -911,10 +912,32 @@ $(document).ready(_ => {
         mediaElement.muted = true;
         document.body.appendChild(mediaElement);
     }
+
+    // Manual unmute on the remote stream element
+    $("#btnRemoteAudio").off('click').on('click', (e) => {
+	var otherUserMediaElement = document.getElementById('out');
+        if (otherUserMediaElement.muted) {
+            otherUserMediaElement.muted = false;
+            otherUserMediaElement.pause();
+        } else {
+            otherUserMediaElement.muted = true;
+            otherUserMediaElement.play();
+        }
+    });
+
+    // Manual resume buffer for the remote stream
+    $("#btnResumeBuffer").off('click').on('click', (e) => {
+        if (resumeBuffer != undefined){
+            resumeBuffer();
+        }else{
+            console.log("No remote stream is not connected");
+        }
+    });
+
     //$("#chosenAction").hide();
     setRole();
 
-    //$('#version').text(properties.versionname);
+    $('#version').text(properties.versionname);
     tick = window.setInterval(t => {
         var scale = properties.maxStashFrames / 100.0;
         var timeline_length = Math.floor(properties.maxStashFrames * properties.procFramesize / 44100);
