@@ -48,6 +48,7 @@ var toggleMute;
 var unruptEnabled = true;
 var toggleUnrupt;
 var AudioContext = window.AudioContext || window.webkitAudioContext;
+var RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
 var framecount = 0;
 var mode = "waiting";
 var offerSendLoop;
@@ -452,7 +453,14 @@ function addStream(stream, kind) {
     if (kind.indexOf("video") != -1) {
         remoteStream = stream;
         var mediaElement = document.getElementById('out');
-        mediaElement.srcObject = stream;
+        
+        // Older browsers may not have srcObject
+        if ("srcObject" in mediaElement) {
+            mediaElement.srcObject = stream;
+        } else {
+            // Avoid using this in new browsers, as it is going away.
+            mediaElement.src = URL.createObjectURL(stream);
+        }
         //mediaElement.muted = true;
         console.log('Video stream');
 
@@ -573,10 +581,16 @@ function setupAudio() {
                 }
                 if (videoEnabled) {
                     var ourMediaElement = document.getElementById('in');
-                    ourMediaElement.srcObject = stream;
+                    // Older browsers may not have srcObject
+                    if ("srcObject" in ourMediaElement) {
+                        ourMediaElement.srcObject = stream;
+                    } else {
+                        // Avoid using this in new browsers, as it is going away.
+                        ourMediaElement.src = URL.createObjectURL(stream);
+                    }
 
                     ourMediaElement.onloadedmetadata = function (e) {
-                        //ourMediaElement.play();
+                        ourMediaElement.play();
                     };
                     ourMediaElement.onclick = function (e) {
                         console.log("onclick for in video");
