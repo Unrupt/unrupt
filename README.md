@@ -9,7 +9,9 @@ Audio waveforms are displayed to indicate when speaking live or playing from buf
 
 [![UNRUPT DEMO](https://image.ibb.co/bHHDty/demo.png)](https://www.youtube.com/embed/az_g2tOxhPI?start=782&end=936&autoplay=1)
 
-In this demo the video continues live while the audio is buffered.Far audio is buffered while Pause-while-speaking is on and when manually paused.The manual pause button also sets Mute on and off.
+In this showing of our unrupt demo by Tim Panton at Kamailioworld far audio is buffered while Pause-while-speaking is on and when manually paused. The manual pause button also sets Mute on and off. The video feed is optional and continues live while the audio is buffered
+
+Go to our experimental release page to try for yourself.
 
 ## **Licences**
 
@@ -24,3 +26,7 @@ Visit our [Roadmap 2018](https://docs.google.com/document/d/1Xf5LLFaNVRIa-bGX67v
 </div>
 
 © 2018 GitHub, Inc. Terms Privacy Security Status Help Contact GitHub API Training Shop Blog About Press h to open a hovercard with more details.
+
+
+
+
