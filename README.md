@@ -1,4 +1,4 @@
-![](https://unrupt.github.io/images/Unrupt-Logo-p-500.png)
+![](https://github.com/Unrupt/unrupt.github.io/blob/master/images/unrupt%20logo.PNG?raw=true)
 
 # So no-one's ideas are lost.
 
