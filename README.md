@@ -16,11 +16,10 @@ Works best on Safari or Firefox: [https://pigeonflight.github.io/unrupt-demo/ios
 
 best on Safari on iOS and Firefox elsewhere:
 
-[Visit the Video Demo](#)
+[![UNRUPT DEMO](https://image.ibb.co/bHHDty/demo.png)](https://www.youtube.com/embed/az_g2tOxhPI?start=782&end=936&autoplay=1)
 
 In this demo the video continues live while the audio is buffered.Far audio is buffered while Pause-while-speaking is on and when manually paused.The manual pause button also sets Mute on and off.
 
-![](https://camo.githubusercontent.com/d6d7498df7c7318d9b975655632617b33cdafbef/68747470733a2f2f696d6167652e6962622e636f2f6248484474792f64656d6f2e706e67)
 
 In this demo the video continues live while the audio is buffered.Far audio is buffered while Pause-while-speaking is on and when manually paused.The manual pause button also sets Mute on and off.
 
