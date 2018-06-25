@@ -5,11 +5,9 @@ Unrupt Demo 1.0 shows automatically pausing or playing back a live VOIP call by 
 
 ‍**This avoids interruption or disruption from people speaking over each other or backing down, instead each person can speak their thoughts as they arise, and they are played out one after the other, so no-one's ideas are lost.
 
-Audio waveforms are displayed to indicate when speaking live or playing from buffer.The buffer shows blue band for duration of speech by the near speaker and orange band for duration of unheard speech by the far speaker which was buffered during the near speechand played out when the near speaker stops speaking
-
 [![UNRUPT DEMO](https://image.ibb.co/bHHDty/demo.png)](https://www.youtube.com/embed/az_g2tOxhPI?start=782&end=936&autoplay=1)
 
-In this showing of our unrupt demo by Tim Panton at Kamailioworld far audio is buffered while Pause-while-speaking is on and when manually paused. The manual pause button also sets Mute on and off. The video feed is optional and continues live while the audio is buffered
+In this showing of our unrupt demo by Tim Panton at Kamailioworld far audio is buffered while Pause-while-speaking is on and when manually paused. Audio waveforms are displayed to indicate when speaking live or playing from buffer.The buffer shows a blue band for duration of speech by the near speaker and an orange band for duration of unheard speech by the far speaker which is buffered during the near speech and played out when the near speaker stops speaking.The manual pause button also sets Mute on and off. The video feed is optional and continues live while the audio is buffered
 
 Go to our [experimental version](https://b4oshany.github.io/unrupt-demo) page to try for yourself.
 
