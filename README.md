@@ -11,7 +11,7 @@ Audio waveforms are displayed to indicate when speaking live or playing from buf
 
 In this showing of our unrupt demo by Tim Panton at Kamailioworld far audio is buffered while Pause-while-speaking is on and when manually paused. The manual pause button also sets Mute on and off. The video feed is optional and continues live while the audio is buffered
 
-Go to our [experimental release](https://github.com/b4oshany/unrupt-demo/blob/master/README.md) page to try for yourself.
+Go to our [experimental release](https://b4oshany.github.io/unrupt-demo) page to try for yourself.
 
 ## **Licences**
 
