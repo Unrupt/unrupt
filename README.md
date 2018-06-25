@@ -1,25 +1,13 @@
 ![](https://github.com/Unrupt/unrupt.github.io/blob/master/images/unrupt%20logo.PNG?raw=true)
-
 # So no-one's ideas are lost.
 
 Unrupt Demo 1.0 shows automatically pausing or playing back a live VOIP call by means of buffering in the browser triggered by a participant simply starting and stopping speaking**.  
 
 ‍**This avoids interruption or disruption from people speaking over each other or backing down, instead each person can speak their thoughts as they arise, and they are played out one after the other, so no-one's ideas are lost.
 
-## **Audio demo**
-
-Works best on Safari or Firefox: [https://pigeonflight.github.io/unrupt-demo/ios-plus-new-layout.html](https://pigeonflight.github.io/unrupt-demo/ios-plus-new-layout.html)select the Audio demo on first display (video leads to an out of date version)Audio waveforms are displayed to indicate when speaking live or playing from buffer.The buffer shows blue band for duration of speech by the near speaker and orange band for duration of unheard speech by the far speaker which was buffered during the near speechand played out when the near speaker stops speaking
-
-[Visit the Audio Demo](#)
-
-## **Video demo**
-
-best on Safari on iOS and Firefox elsewhere:
+Audio waveforms are displayed to indicate when speaking live or playing from buffer.The buffer shows blue band for duration of speech by the near speaker and orange band for duration of unheard speech by the far speaker which was buffered during the near speechand played out when the near speaker stops speaking
 
 [![UNRUPT DEMO](https://image.ibb.co/bHHDty/demo.png)](https://www.youtube.com/embed/az_g2tOxhPI?start=782&end=936&autoplay=1)
-
-In this demo the video continues live while the audio is buffered.Far audio is buffered while Pause-while-speaking is on and when manually paused.The manual pause button also sets Mute on and off.
-
 
 In this demo the video continues live while the audio is buffered.Far audio is buffered while Pause-while-speaking is on and when manually paused.The manual pause button also sets Mute on and off.
 
