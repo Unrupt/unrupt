@@ -658,6 +658,9 @@ function getConversationEntries(){
  */
 function getMID() {
     var cid = $.getUrlVar("unruptId");
+    if ( cid != undefined ){
+        cid = cid.replace("#", "");
+    }
     if (!mid) {
         getConversationEntries();
     }
@@ -670,6 +673,9 @@ function getMID() {
  */
 function saveMID(id){
     var cid = $.getUrlVar("unruptId");
+    if ( cid != undefined ){
+        cid = cid.replace("#", "");
+    }
     call_history[cid] = id;
     data = JSON.stringify(call_history)
     localStorage.setItem('call_history', data);
@@ -683,6 +689,9 @@ function saveMID(id){
 
 function setRole() {
     cid = $.getUrlVar("unruptId");
+    if ( cid != undefined ){
+        cid = cid.replace("#", "");
+    }
     mid = localStorage['unruptId'];
     console.log('URL unrupt ID:', cid);
     console.log('localStorage unrupt ID:', mid);
