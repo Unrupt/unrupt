@@ -245,6 +245,10 @@ canvas#nearscope, canvas#farscope, canvas#earscope {
     }
 }
 
+body[has-video="false"] .video-holder {
+    display: none;
+}
+
 .btn-default {
     border: none;
     outline: none;
@@ -279,6 +283,12 @@ h1#title {
 
 .dropdown-item {
     padding: 12px 1.5rem;
+}
+
+.buffer-length {
+    max-width: 540px;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .dropdown-item:not(:last-child) {
