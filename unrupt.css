@@ -271,3 +271,17 @@ canvas#nearscope, canvas#farscope, canvas#earscope {
     color: black;
     box-shadow: none;
 }
+
+h1#title {
+    z-index: 1001;
+    position: relative;
+}
+
+.dropdown-item {
+    padding: 12px 1.5rem;
+}
+
+.dropdown-item:not(:last-child) {
+    padding: 12px 1.5rem;
+    border-bottom: 1px solid #eee;
+}
