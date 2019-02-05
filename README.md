@@ -18,6 +18,9 @@ The buffer shows a blue band for duration of speech by the near speaker and an o
 
 You can go to our [stable version](https://unrupt.github.io/unrupt) or [experimental version](https://unrupt.github.io/try) page to try it for yourself.
 
+## **Roadmap**
+
+More excerpts from Tim's show and ideas for what next in our [Roadmap 2018](https://docs.google.com/document/d/1Xf5LLFaNVRIa-bGX67v_XsYMWW4lbfdKqtzS3_iYNF4/edit#). For context, take a look at [this document with comments on Tim's signalling proposal](https://docs.google.com/document/d/1GMY7wygeD0dyH3lxl3YjRJM2G2v9ZGiBeg7x-AOCuiM/edit?usp=sharing)
 
 ### Known Issues with Unrupt and WebRTC
 
@@ -133,9 +136,7 @@ You can go to our [stable version](https://unrupt.github.io/unrupt) or [experime
 
 For information on the non-commercial MIT open source licence of the demo software visit [our gitthub licence page](https://github.com/steely-glint/unrupt-demo/blob/master/LICENSE). If you're interested in commercial licensing for white label adoption into your own products visit [the commercial patent license page](https://docs.google.com/document/d/1Vllclet_HAtP1CSrq9xUfyZ9OAf53xEurgfGcryjurc/edit?usp=sharing) feel free to speak to us about consulting and implementation help.The original [source code](https://github.com/steely-glint/unrupt-demo) is at [https://github.com/steely-glint/unrupt-demo](https://github.com/steely-glint/unrupt-demo)[](https://docs.google.com/document/d/1GMY7wygeD0dyH3lxl3YjRJM2G2v9ZGiBeg7x-AOCuiM/edit?usp=sharing)
 
-## **Roadmap**
 
-More excerpts from Tim's show and ideas for what next in our [Roadmap 2018](https://docs.google.com/document/d/1Xf5LLFaNVRIa-bGX67v_XsYMWW4lbfdKqtzS3_iYNF4/edit#). For context, take a look at [this document with comments on Tim's signalling proposal](https://docs.google.com/document/d/1GMY7wygeD0dyH3lxl3YjRJM2G2v9ZGiBeg7x-AOCuiM/edit?usp=sharing)
 
 
 © 2018 GitHub, Inc. Terms Privacy Security Status Help Contact GitHub API Training Shop Blog About Press h to open a hovercard with more details.
