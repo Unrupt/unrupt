@@ -135,7 +135,7 @@ For information on the non-commercial MIT open source licence of the demo softwa
 
 ## **Roadmap**
 
-Visit our [Roadmap 2018](https://docs.google.com/document/d/1Xf5LLFaNVRIa-bGX67v_XsYMWW4lbfdKqtzS3_iYNF4/edit#). For context, take a look at [this document with comments on Tim's signalling proposal](https://docs.google.com/document/d/1GMY7wygeD0dyH3lxl3YjRJM2G2v9ZGiBeg7x-AOCuiM/edit?usp=sharing)
+More excerpts from Tim's show and ideas for what next in our [Roadmap 2018](https://docs.google.com/document/d/1Xf5LLFaNVRIa-bGX67v_XsYMWW4lbfdKqtzS3_iYNF4/edit#). For context, take a look at [this document with comments on Tim's signalling proposal](https://docs.google.com/document/d/1GMY7wygeD0dyH3lxl3YjRJM2G2v9ZGiBeg7x-AOCuiM/edit?usp=sharing)
 
 
 © 2018 GitHub, Inc. Terms Privacy Security Status Help Contact GitHub API Training Shop Blog About Press h to open a hovercard with more details.
