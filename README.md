@@ -16,7 +16,7 @@ The buffer shows a blue band for duration of speech by the near speaker and an o
 
 ### Demos
 
-You can go to our [stable version](https://unrupt.github.io/unrupt) or [experimental version](https://unrupt.github.io/try) page to try it for yourself.
+You can go to our [STABLE VERSION](https://unrupt.github.io/unrupt) or [EXPERMENTAL VERSION](https://unrupt.github.io/try) page to try it for yourself.
 
 ## **Roadmap**
 
