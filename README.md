@@ -7,8 +7,9 @@ When you finish talking, it plays out what the other person said. In addition, t
 ### Demos
 
 You can go to our original Unrupt [DEMO VERSION](https://unrupt.github.io/unrupt) as shown by Tim in the video below, 
+or our Unrupt [PODCAST VERSION](https://unrupt.github.io/try) now in alpha test, which optionally creates a podcast in the backgrund during the call with each speaker to the left or right. 
 
-or our Unrupt [PODCAST VERSION](https://unrupt.github.io/try) now in alpha test, which optionally creates a podcast in the backgrund during the call with each speaker to the left or right. More at [Unrupt Podcast demo 1.2.0] (https://docs.google.com/document/d/1UAAJUiSZ99gehOnBDvY33yO4yRx-voZ71OsuZrqpiDY/edit?usp=sharing) 
+More at [Unrupt Podcast demo 1.2.0] (https://docs.google.com/document/d/1UAAJUiSZ99gehOnBDvY33yO4yRx-voZ71OsuZrqpiDY/edit?usp=sharing)  
 
 The screenshot below illustrates the features of the unrupt webapp.
 
