@@ -2,7 +2,10 @@
 # So no-one's ideas are lost.
 
 Unrupt solves the issue of cross talking or interruptions to ensure that both sides do not lose their chain of thoughts. The ***pause-while-speaking*** feature in Unrupt automatically pauses and buffers what the other user is saying while you are talking. 
-When you finish talking, it plays out what the other person said. In addition, there's a manual pause feature, which mutes you, buffers the other user's speech and plays it out when you click unpause. The screenshot below illustrates the features of the unrupt webapp.
+When you finish talking, it plays out what the other person said. In addition, there's a manual pause feature, which mutes you, buffers the other user's speech and plays it out when you click unpause. 
+
+
+The screenshot below illustrates the features of the unrupt webapp.
 
 <img src="https://image.ibb.co/mYquwo/Unrupt_Annotation.png" alt="Unrupt_Annotation" border="0">
 
