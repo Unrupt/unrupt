@@ -4,6 +4,9 @@
 Unrupt solves the issue of cross talking or interruptions to ensure that both sides do not lose their chain of thoughts. The ***pause-while-speaking*** feature in Unrupt automatically pauses and buffers what the other user is saying while you are talking. 
 When you finish talking, it plays out what the other person said. In addition, there's a manual pause feature, which mutes you, buffers the other user's speech and plays it out when you click unpause. 
 
+### Demos
+
+You can go to our Unrupt [DEMO VERSION](https://unrupt.github.io/unrupt) or our Unrupt [PODCAST VERSION](https://unrupt.github.io/try) page to try it for yourself.
 
 The screenshot below illustrates the features of the unrupt webapp.
 
@@ -16,10 +19,6 @@ In the YouTube Video below, Tim Panton, the initial developer for Unrupt, explai
 <a target="_blank" href="https://www.youtube.com/embed/az_g2tOxhPI?start=782&amp;end=936&amp;autoplay=1" rel="nofollow"><img data-canonical-src="https://www.youtube.com/embed/az_g2tOxhPI?start=782&amp;end=936&amp;autoplay=1" src="https://camo.githubusercontent.com/d6d7498df7c7318d9b975655632617b33cdafbef/68747470733a2f2f696d6167652e6962622e636f2f6248484474792f64656d6f2e706e67" alt="UNRUPT DEMO" data-canonical-src="https://image.ibb.co/bHHDty/demo.png" style="max-width:100%;"></a>
 
 The buffer shows a blue band for duration of speech by the near speaker and an orange band for duration of unheard speech by the far speaker, which is buffered during the near speech and played out when the near speaker stops speaking. The manual pause button also sets Mute on and off. The video feed is optional and continues live while the audio is buffered.
-
-### Demos
-
-You can go to our Unrupt [DEMO VERSION](https://unrupt.github.io/unrupt) or our Unrupt [PODCAST VERSION](https://unrupt.github.io/try) page to try it for yourself.
 
 ## **Roadmap**
 
