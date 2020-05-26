@@ -14,7 +14,7 @@ var properties = {
                                   // default 0.0175 ok on imacs
 
     useAudioOnlyLayout: false, // If true then the audio layout should be used instead of the main video/audio layout.
-    minFramesSilenceForPause: 15, // number of non-silent frames before we pause. default 3 (300ms)
+    minFramesSilenceForPause: 10, // number of non-silent frames before we pause. default 3 (300ms)
     minFramesSilenceForPlay: 5,  // number of silent frames before we start to clip silence from playback. default 3 (300ms)
     maxStashFrames: 500, // longest possible pause (in frames). default 1000 -> 100 sec
     websocketURL: "wss://pi.pe/websocket/?finger=" // where to find the redezvous server.
